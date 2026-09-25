@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BAF LATAM x Stellar, Q3 2026 in orbit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0F0F0F;--ink:#F6F7F8;--ink-2:#D6D2C4;--ink-3:rgba(246,247,248,.55);--yellow:#FDDA24;--lilac:#B7ACE8;--teal:#00A7B5;--navy:#002E5D;--line:rgba(246,247,248,.14);
+ --serif:"Lora",Georgia,"Times New Roman",serif;--sans:"Inter","Helvetica Neue",Arial,sans-serif;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F0F0F}}
+:root[data-theme="dark"]{--bg:#0F0F0F}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.16;background-image:radial-gradient(rgba(253,218,36,.55) .6px,transparent .7px);background-size:18px 18px;
+ mask-image:radial-gradient(60% 50% at 50% 30%,#000 0%,transparent 100%);-webkit-mask-image:radial-gradient(60% 50% at 50% 30%,#000 0%,transparent 100%)}
+a{color:var(--yellow)}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:500;margin:0;line-height:1.15}
+p{margin:0}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 24px}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:22px 0 0;flex-wrap:wrap}
+header .brand{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-2)}
+header nav{display:flex;gap:18px;font-size:13px;color:var(--ink-3)}
+header nav a{color:inherit;text-decoration:none}
+header nav a:hover{color:var(--ink)}
+.hero{min-height:calc(100vh - 60px);display:grid;align-items:center;padding:20px 0 8px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:center}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
+.orbits{position:relative;width:100%;max-width:660px;aspect-ratio:1/1;margin:0 auto}
+.orbits svg{position:absolute;inset:0;width:100%;height:100%}
+.orbit-ring{fill:none;stroke-width:1;transition:opacity .4s,stroke-width .4s}
+.orbit-ring.hot{opacity:1!important;stroke-width:1.4}
+.orbit-ring.drawn{stroke-dasharray:2000;stroke-dashoffset:2000;animation:draw 1.6s cubic-bezier(.2,.7,.2,1) forwards}
+.orbit-ring.drawn[stroke-dasharray="3 6"]{animation:fadein 1.6s ease forwards;stroke-dashoffset:0;opacity:0}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fadein{to{opacity:.5}}
+#star{cursor:pointer}
+.star-halo{fill:none;stroke:var(--yellow);transform-box:fill-box;transform-origin:center;animation:halo 4s ease-in-out infinite}
+@keyframes halo{0%,100%{transform:scale(1);opacity:.35}50%{transform:scale(1.4);opacity:.08}}
+.planet{cursor:pointer;transition:opacity .4s}
+.planet text{font-family:var(--sans);font-size:12px;fill:var(--ink);pointer-events:none}
+.planet .tag{font-size:10.5px;fill:var(--ink-3)}
+.planet .body{transform-box:fill-box;transform-origin:center;transition:transform .3s}
+.planet:hover .body,.planet:focus-visible .body,.planet.active .body{transform:scale(1.7)}
+.planet.active .body{filter:url(#glow)}
+.ping{transform-box:fill-box;transform-origin:center;animation:ping 2.6s ease-out infinite;stroke-width:1}
+@keyframes ping{0%{transform:scale(1);opacity:.8}100%{transform:scale(3.4);opacity:0}}
+.planet.dim{opacity:.18}
+.planet.appear{opacity:0;animation:appear .9s ease forwards}
+.planet.appear.dim{animation:none}
+@keyframes appear{to{opacity:1}}
+.sat{cursor:pointer;opacity:0;animation:appear .5s ease forwards}
+.sat .sk{font-family:var(--sans);font-size:5.4px;fill:var(--ink-3)}
+.sat .sl{font-family:var(--sans);font-size:7.4px;fill:var(--ink)}
+.sat .sdot{transform-box:fill-box;transform-origin:center;transition:transform .25s}
+.sat:hover .sdot,.sat:focus .sdot{transform:scale(1.6)}
+.sat:hover .sl{fill:var(--yellow)}
+#back{position:absolute;left:0;top:0;padding:8px 14px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--ink-2);background:rgba(15,15,15,.8);opacity:0;pointer-events:none;transition:opacity .3s}
+#zcap{position:absolute;left:0;right:0;bottom:-6px;text-align:center;font-size:13px;color:var(--ink-3);opacity:0;transition:opacity .3s}
+#zcap b{font-family:var(--serif);font-weight:500;color:var(--ink);font-size:16px;margin-right:6px}
+.orbits.zoomed #back,.orbits.zoomed #zcap{opacity:1;pointer-events:auto}
+.orbits.zoomed .orbit-ring{opacity:.1!important}
+.orbits.zoomed .orbit-ring.hot{opacity:.22!important}
+.orbits.zoomed circle[fill="url(#haze)"]{opacity:.2}
+.orbits.zoomed .planet.active{opacity:0}
+.orbit-ring,.planet,circle[fill="url(#haze)"]{transition:opacity .5s}
+.sat text,.zlabel{paint-order:stroke;stroke:#0F0F0F;stroke-width:3px;stroke-linejoin:round}
+.zlabel{font-family:var(--serif);font-size:13px;fill:var(--ink)}
+.zlabel.amt{font-family:var(--sans);font-size:7px;fill:var(--ink-3);stroke-width:2px}
+.lens{opacity:0;animation:appear .5s ease forwards}
+@media (prefers-reduced-motion:reduce){.orbit-ring.drawn{animation:none;stroke-dashoffset:0}.planet.appear,.sat{animation:none;opacity:1}.ping,.star-halo{animation:none}}
+.hero-copy h1{font-size:clamp(34px,4.6vw,56px);letter-spacing:-.01em;max-width:14ch}
+.hero-copy .lede{margin-top:18px;font-size:17px;color:var(--ink-2);max-width:46ch;line-height:1.6}
+.hero-copy .hint{margin-top:22px;font-size:13px;color:var(--ink-3)}
+.legend{margin-top:22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 18px;font-size:13.5px}
+.legend button{display:flex;align-items:center;gap:10px;padding:6px 0;text-align:left;color:var(--ink-2)}
+.legend button:hover,.legend button.on{color:var(--ink)}
+.dot{width:10px;height:10px;border-radius:50%;flex:none;display:inline-block}
+.legend .amt{margin-left:auto;color:var(--ink-3);font-variant-numeric:tabular-nums}
+
+.focus{margin-top:18px;border-top:1px solid var(--line);padding:34px 0 10px;display:none}
+.focus.show{display:block}
+.focus-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 28px}
+.focus-head h2{font-size:clamp(30px,3.6vw,44px)}
+.focus-head .sub{color:var(--ink-2);margin-top:6px;max-width:64ch}
+.focus-head .alloc{color:var(--ink-3);font-size:14px}
+h3.mini{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-3);margin:30px 0 12px}
+.ctx{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.ctx div{background:var(--bg);padding:16px 18px}
+.ctx b{font-family:var(--serif);font-weight:500;font-size:17px;color:var(--c)}
+.ctx p{margin-top:6px;font-size:13.5px;color:var(--ink-2);line-height:1.55}
+.impact{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.impact div{padding:14px 16px;border:1px solid var(--line);border-radius:6px}
+.impact b{display:block;font-family:var(--serif);font-weight:500;font-size:30px;line-height:1;color:var(--c)}
+.impact span{display:block;margin-top:8px;font-size:12.5px;color:var(--ink-3);line-height:1.35}
+.impact .hl{border-color:var(--c);box-shadow:0 0 0 1px var(--c) inset,0 0 36px -10px var(--c);grid-column:span 2}
+.impact .hl b{font-size:46px}
+.impact .hl span{font-size:14px;color:var(--ink)}
+@media (max-width:560px){.impact .hl{grid-column:auto}}
+.timeline{margin-top:36px;padding-top:40px;overflow-x:auto;overflow-y:hidden}
+.tl-track{position:relative;display:flex;min-width:max-content;padding:0 12px 18px}
+.tl-track::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,var(--c) 0,var(--c) var(--split),rgba(246,247,248,.18) var(--split))}
+.tl-item{position:relative;width:224px;flex:none;padding:22px 18px 0 0}
+.tl-item::before{content:"";position:absolute;left:0;top:-5px;width:11px;height:11px;border-radius:50%;background:var(--c);box-shadow:0 0 14px var(--c)}
+.tl-item.next::before{background:var(--bg);border:1px dashed var(--ink-2);box-shadow:none}
+.tl-item .d{font-size:12px;color:var(--ink-3)}
+.tl-item .t{font-family:var(--serif);font-size:17px;margin-top:4px;line-height:1.25}
+.tl-item .m{margin-top:8px;font-size:13px;color:var(--ink-2);line-height:1.45}
+.tl-item .k{margin-top:8px;font-size:12.5px;color:var(--c)}
+.tl-item.next .k{color:var(--ink-3)}
+.tl-label{position:absolute;top:-30px;font-size:11.5px;color:var(--ink-3)}
+
+.explorer{margin-top:56px;border-top:1px solid var(--line);padding-top:34px}
+.explorer-head h2{font-size:clamp(26px,3vw,36px)}
+.explorer-head p{color:var(--ink-2);max-width:60ch;margin-top:8px}
+.country-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:26px}
+.country-tabs button{padding:9px 14px;border:1px solid var(--line);border-radius:999px;font-size:13.5px;color:var(--ink-2);display:flex;gap:8px;align-items:center}
+.country-tabs .dot{width:8px;height:8px}
+.country-tabs button.on{border-color:var(--c);color:var(--ink)}
+.views{display:flex;gap:22px;margin-top:22px;border-bottom:1px solid var(--line);overflow-x:auto}
+.views button{padding:10px 0 12px;font-size:14px;color:var(--ink-3);white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
+.views button.on{color:var(--ink);border-color:var(--c)}
+.panel{padding:26px 0 8px}
+.panel h3{font-size:22px;margin:28px 0 12px}
+.panel h3:first-child{margin-top:0}
+.lead{color:var(--ink-2);max-width:70ch;line-height:1.6}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px 10px 0;border-bottom:1px solid var(--line)}
+th{font-weight:500;color:var(--ink-3);font-size:12.5px}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;padding-left:10px;padding-right:0;white-space:nowrap}
+tr.total td{font-weight:600;border-bottom:0}
+.scroll{overflow-x:auto}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.stat-row div{padding:14px 0;border-top:1px solid var(--c)}
+.stat-row b{font-family:var(--serif);font-weight:500;font-size:26px;display:block}
+.stat-row span{font-size:12.5px;color:var(--ink-3)}
+.take{padding-left:18px;color:var(--ink-2);font-size:14.5px;line-height:1.7}
+.take b{color:var(--ink)}
+.stlist{display:flex;flex-wrap:wrap;gap:16px;font-size:14px;color:var(--ink-2)}
+.st{display:inline-block;font-size:11.5px;padding:3px 10px;border-radius:999px;white-space:nowrap;border:1px solid var(--line);color:var(--ink-2)}
+.st.done{background:var(--yellow);border-color:var(--yellow);color:#0F0F0F;font-weight:500}
+.st.prog{border-color:var(--lilac);color:var(--lilac)}
+.st.prog::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--lilac);margin-right:6px;vertical-align:1px;animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{50%{opacity:.25}}
+.st.sched{border-style:dashed;color:var(--ink-2)}
+.st.prop{border:1px dashed var(--yellow);color:var(--yellow)}
+.st.canc{text-decoration:line-through;color:var(--ink-3)}
+.acc{border-top:1px solid var(--line)}
+.acc details{border-bottom:1px solid var(--line)}
+.acc summary{list-style:none;display:grid;grid-template-columns:1fr auto auto;gap:18px;align-items:center;padding:16px 0;cursor:pointer}
+.acc summary::-webkit-details-marker{display:none}
+.acc .n{font-family:var(--serif);font-size:18px}
+.acc .s{font-size:12.5px;color:var(--ink-3)}
+.acc .a{font-variant-numeric:tabular-nums;color:var(--ink-2);white-space:nowrap;font-size:14px}
+.acc details[open] .n{color:var(--c)}
+.acc .body{padding:0 0 24px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:26px}
+@media (max-width:760px){.acc .body{grid-template-columns:1fr}.acc summary{grid-template-columns:1fr auto}.acc .a{display:none}}
+.acc .body p{font-size:14px;color:var(--ink-2);line-height:1.6}
+.acc .body ul{margin:10px 0 0;padding-left:18px;font-size:13.5px;color:var(--ink-2)}
+.acc .body li{margin:4px 0}
+.acc h4{font-family:var(--sans);font-weight:600;font-size:13px;color:var(--ink-3);margin:0 0 8px}
+.evl{display:flex;flex-direction:column;gap:2px}
+.evl a{display:grid;grid-template-columns:10px 72px 1fr;gap:8px;align-items:center;font-size:13.5px;color:var(--ink);text-decoration:none;padding:5px 0;border-bottom:1px dotted var(--line)}
+.evl a:hover{color:var(--yellow)}
+.evl i{width:8px;height:8px;border-radius:50%}
+.evl span{color:var(--ink-3);font-size:12px}
+.bar{display:grid;grid-template-columns:140px 1fr 70px;gap:10px;align-items:center;font-size:12.5px;padding:4px 0}
+.bar i{display:block;height:8px;border-radius:2px;background:var(--c);opacity:.85}
+.bar em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.bar span{color:var(--ink-3)}
+.pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2)}
+.note{font-size:12.5px;color:var(--ink-3);margin-top:10px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.tile{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:132px;padding:14px;border:1px solid var(--line);border-radius:6px;text-decoration:none;color:var(--ink);overflow:hidden;transition:border-color .2s}
+.tile:hover{border-color:var(--yellow)}
+.tile::before{content:"";position:absolute;inset:0;z-index:0;opacity:.5}
+.tile>*{position:relative;z-index:1}
+.tile.k-Photos::before{background:radial-gradient(circle at 70% 30%,rgba(253,218,36,.55) 0 1.2px,transparent 1.6px) 0 0/9px 9px;mask-image:radial-gradient(70% 70% at 70% 25%,#000,transparent);-webkit-mask-image:radial-gradient(70% 70% at 70% 25%,#000,transparent)}
+.tile.k-Instagram::before,.tile.k-LinkedIn::before{background:radial-gradient(90% 80% at 80% 0%,rgba(183,172,232,.45),transparent 70%)}
+.tile.k-Onchain::before,.tile.k-GitHub::before{background:radial-gradient(90% 80% at 80% 0%,rgba(0,167,181,.4),transparent 70%)}
+.tile.k-Luma::before,.tile.k-Data::before,.tile.k-Material::before{background:radial-gradient(90% 80% at 80% 0%,rgba(214,210,196,.25),transparent 70%)}
+.tile.pending{border-style:dashed;color:var(--ink-3)}
+.tile .tk{font-size:11.5px;color:var(--ink-3)}
+.tile b{font-family:var(--serif);font-weight:500;font-size:16px;margin-top:4px;line-height:1.25}
+.tile .ti{font-size:12px;color:var(--ink-3);margin-top:6px}
+.kpi td:first-child{font-weight:500}
+.kpi .aug{color:var(--ink-2)}
+.kpi td.sep{background:rgba(183,172,232,.08);border-left:2px solid var(--lilac);padding-left:10px}
+.kpi th.sep{padding-left:12px}
+.kpi td.oct{color:var(--ink-3)}
+.tag{display:inline-block;font-family:var(--sans);font-size:10.5px;font-weight:500;padding:1px 7px;border-radius:999px;margin-left:6px;vertical-align:2px}
+.tag.closed{background:rgba(246,247,248,.12);color:var(--ink-2)}
+.tag.ongoing{background:rgba(183,172,232,.18);color:var(--lilac)}
+.tag.next{border:1px dashed var(--ink-3);color:var(--ink-3)}
+.closures{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px}
+@media (max-width:760px){.closures{grid-template-columns:1fr}}
+.cl{padding:18px 20px;border-radius:6px;border:1px solid var(--line)}
+.cl.sep{border-color:rgba(183,172,232,.5);background:rgba(183,172,232,.05)}
+.cl.oct{border-style:dashed}
+.panel .cl h3{font-size:19px;margin:0 0 10px}
+.cl ul,.cl ol{margin:0;padding-left:18px;font-size:14px;color:var(--ink-2);line-height:1.6}
+.sev{font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--line)}
+.sev.s-high{border-color:var(--yellow);color:var(--yellow)}
+.sev.s-medium{border-color:var(--lilac);color:var(--lilac)}
+.dl{margin-top:60px;padding:40px 0 70px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center}
+@media (max-width:760px){.dl{grid-template-columns:1fr}}
+.dl h2{font-size:26px}
+.dl p{color:var(--ink-2);margin-top:8px;max-width:60ch}
+.dl-actions{display:flex;flex-wrap:wrap;gap:10px}
+.btn{padding:12px 20px;border-radius:999px;font-size:14px;font-weight:500;border:1px solid var(--yellow);color:var(--yellow);transition:background .2s,color .2s}
+.btn.solid{background:var(--yellow);color:#0F0F0F}
+.btn:hover{background:var(--yellow);color:#0F0F0F}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+footer{padding:0 0 40px;font-size:12.5px;color:var(--ink-3)}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FwYV8yIiBkYXRhLW5hbWU9IkNhcGEgMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNjQzLjAxIDk2LjI0Ij4KICA8ZyBpZD0iQ29tcG8iPgogICAgPGc+CiAgICAgIDxwYXRoIGQ9Ik0zNjIuNDQsNDQuMTVjLjQzLjQ1LDEuNDIsMS43MywxLjk3LDEuMzZMNDA5LjU1LDBsMi4yLDIuNTUtNDQuODcsNDUuNjcsNDUuMTIsNDUuNTctMS45MywyLjI5LTQ1LjkxLTQ1LjEzLTQ1LjE1LDQ1LjIyYy0uODQuNDctMi41LTEuNDMtMi43Ni0yLjIxbDQ1LjM2LTQ2LjAyTDMxNi40MywyLjA5bDIuMjktMS45M2MxNC40OSwxNC43NSwyOS40NSwyOS4wMyw0My43Miw0My45OVoiLz4KICAgICAgPHBhdGggZD0iTTExMy41LDU3LjUzYy44NCwxLjE0Ljc0LDIuNTUsMS4zNywzLjg2LDQuOTEsMTAuMTIsMjUuNzksOC4xLDIzLjgyLTMuMjUtMS44LTEwLjM0LTI1LjE0LTUuMzMtMjkuNDUtMTcuMjctMi4wOC01Ljc3LS42Mi0xMS40MSw0LjQ2LTE0Ljg2LDEwLjU0LTcuMTUsMjguOTYtNC4yNSwzMS4zNSw5LjkxaC02Ljk3Yy0uNTctMi4zNC0xLjg1LTQuMS0zLjg2LTUuMzgtNS43OS0zLjY4LTE5LjI3LTMuMTMtMTguNDcsNS45Mi42NSw3LjMzLDE0LjI1LDcuNTgsMTkuNzksOS41LDYuMjQsMi4xNywxMS4zNSw3LjQ0LDEwLjQ4LDE0LjQ1LTIuMjcsMTguMTctMzYuNjYsMTguNjYtMzkuMzEtMi43LS4xMy0xLjA4LjQtLjE3LjUyLS4xN2g2LjI4WiIvPgogICAgICA8cGF0aCBkPSJNMjAxLjIsNjIuMDZjLS4zNCwyLjcxLTIuNDUsNi4xLTQuNTYsNy44MS04LjIxLDYuNjQtMjEuODcsNC45Ny0yNy4yMy00LjQ0LTQuOC04LjQyLTIuOTEtMjEuODgsNS41My0yNy4zOCw2LjM4LTQuMTUsMTYuMy0zLjU0LDIxLjU3LDIuMDIsNCw0LjIxLDUuNzEsMTAuNjksNS4zOSwxNi40aC0yOC4yNGMtLjI0LDExLjk4LDE1LjksMTYuNjMsMjEuNDUsNS41OGg2LjFaTTE5NS4yNyw1MC45Yy0uODktNS41Ny00LjY5LTEwLjE1LTEwLjY0LTEwLjE0LTYuMDksMC0xMC40Miw0LjE1LTEwLjk4LDEwLjE0aDIxLjYyWiIvPgogICAgICA8cGF0aCBkPSJNMjYwLjEzLDcyLjg3aC02LjI4bC0uMzUtNC41M2MtMi4yLDIuNDEtNC43Niw0LjgyLTguMTgsNS4yNC04LjQyLDEuMDQtMTcuOTEtMS4zNS0xNi45Mi0xMS42OS45Ni0xMC4wMywxNi4xOC05Ljg5LDIzLjQ2LTExLjQxLDIuNjMtLjU1LjczLTUuMzYtLjMtNi44OC0zLjk0LTUuOC0xNS4yMy0zLjQ4LTE1LjE1LDQuMTZoLTYuNjNjLjk1LTcuNjcsNi45Mi0xMi4zLDE0LjQ2LTEyLjU3LDE4LjcyLS42NiwxNC4yNiwxNC45NywxNC44MiwyNy43NS4xNCwzLjIuNzMsNi43MSwxLjA2LDkuOTJaTTI1My4xNiw2Mi4yNGMuNDItMS44OC0uMzEtNS4xLDAtNy4xNS00LjQ2LDEuMTEtMTUuMzMsMS4xMy0xNy40Niw2LjA4LTIuMDIsNC42OCwyLjkyLDgsNy4xMiw3Ljg1LDIuNi0uMDksNi42OS0xLjgyLDguNDMtMy44LjI1LS4yOSwxLjg3LTIuOCwxLjkxLTIuOThaIi8+CiAgICAgIDxwYXRoIGQ9Ik0xNTkuMDEsMjYuODR2OS4wN2g3LjMydjUuMjNoLTcuMzJ2MjQuMjNjMCwuMywxLjc3LDIuMjcsMS45MiwyLjI3aDUuNHY1LjIzaC04LjE5Yy0xLjcyLDAtNC4xMS0xLjczLTQuNjItMy40LS41Mi0xLjctLjcxLTUuOTUtLjgtNy45Mi0uMy02Ljc3LjI1LTEzLjY0LjAxLTIwLjQxaC01LjIzdi01LjIzaDUuMjN2LTkuMDdoNi4yOFoiLz4KICAgICAgPHJlY3QgeD0iMjE3Ljk0IiB5PSIyMy4wMSIgd2lkdGg9IjYuMjgiIGhlaWdodD0iNDkuODYiLz4KICAgICAgPHJlY3QgeD0iMjA1LjczIiB5PSIyMy4wMSIgd2lkdGg9IjYuMjgiIGhlaWdodD0iNDkuODYiLz4KICAgICAgPHBhdGggZD0iTTI4My4xNSwzNS41NnY2Ljk3Yy03LjUzLTEuNTMtMTAuODIsMS44NS0xMS44MSw4LjkzLS41NCwzLjg0LS4wNyw3LjA4LS4wMywxMC43NS4wNCwzLjU1LS4wNiw3LjExLS4wMSwxMC42NWgtNS45M3YtMzYuOTZoNS40bC41Mi41MnY1LjA2YzEuMTQtLjY4LDEuNjUtMS45MSwyLjYxLTIuOCwyLjM3LTIuMjIsNi4wMy0zLjIxLDkuMjUtMy4xM1oiLz4KICAgICAgPHBhdGggZD0iTTQ5Mi41NCwxOC40N2MyLjUzLjM0LDUuMzEsMi4zLDYuOTgsNC4xOCw2Ljg4LDcuNzYsNS44MywyMC4wMS0yLjk3LDI1LjguNi4xMSwxLjI3LjUxLDEuNzMuOSw1LjgsNC45Miw3LjI5LDEzLjIzLDQuMSwyMC4xMS0yLjAxLDQuMzUtNi4xLDguNjQtMTEuMjQsOC42NGgtNDYuMlYxOC40N2g0Ny42Wk00NDkuNDgsNDUuNjdoNDMuNDFjLjMsMCwyLjQzLTEuNjgsMi44LTIuMDgsMi4xNy0yLjM3LDMuOTktNy4wNSwzLjYxLTEwLjI2LS41Mi00LjQ1LTUuMjItOS45OC05LjktOS45OGgtMzkuOTN2MjIuMzJaTTQ0OS40OCw1MC41NnYyMi4xNGwuNTIuNTJoNDIuMTljLjUyLDAsMi4zMS0xLjI5LDIuOC0xLjc0LDUuMjQtNC43Miw1Ljk4LTEzLjEuNTItMTcuOTctMS40My0xLjI3LTQuOTUtMi45Ni02LjgtMi45NmgtMzkuMjNaIi8+CiAgICAgIDxnPgogICAgICAgIDxwYXRoIGQ9Ik0wLDU4Ljc1YzMuMTUtMS43NCw2LjE3LTIuOTEsNi42My02Ljk3LjYyLTUuNTEtLjI2LTkuNywxLjczLTE1LjM2LDYuOTgtMTkuODksMzAuMjYtMjguOTMsNDkuMDctMTkuNC43Mi4zNiw0LjQ1LDIuMzgsNC4yOSwzLjAybC02LjQ1LDMuMTljLTEzLjE4LTcuMDktMjkuNjQtMy4xOS0zNy43Nyw5LjQzLTMuMzQsNS4xOS01LjY3LDEyLjkxLTQuMDcsMTguOTRMODIuNjQsMTYuMzh2Ny4zMkwwLDY1Ljl2LTcuMTVaIi8+CiAgICAgICAgPHBhdGggZD0iTTgyLjY0LDM4Yy0xLjc4LjUtNS41NiwyLjc2LTYuMTIsNC41MS0uOTYsMy0uMjYsNy4zNC0uNiwxMC41Ni0xLjg5LDE3Ljk5LTE5LjI0LDMxLjQ3LTM3LjA1LDMwLjI3LTYuMDItLjQtMTMuNTctMi44LTE3Ljk0LTYuOThsNi44MS0zLjE4YzE1LjI1LDkuMDYsMzUuMDEuNjcsNDAuNjMtMTUuODEuMi0uNTgsMS4zOC00LjY1LDEuMzgtNC45di03LjVMMCw3OS44NXYtNi40NWM0LjU3LTMuMjQsOS45My01LjIyLDE0Ljg5LTcuNzcsMTEuMDItNS42NiwyMS45NS0xMS41NywzMi45OS0xNy4yMiwxMS41Ny01LjkyLDIzLjMtMTEuNTcsMzQuNzYtMTcuNzJ2Ny4zMloiLz4KICAgICAgPC9nPgogICAgICA8Zz4KICAgICAgICA8cG9seWdvbiBwb2ludHM9IjY0My4wMSAxOC40NyA2NDMuMDEgMjMuMzYgNTkwIDIzLjM2IDU5MCA0NS42NyA2MjQuODcgNDUuNjcgNjI0Ljg3IDUwLjkgNTkwIDUwLjkgNTkwIDc4LjEgNTg1LjQ3IDc4LjEgNTg1LjQ3IDE4LjQ3IDY0My4wMSAxOC40NyIvPgogICAgICAgIDxnPgogICAgICAgICAgPHBhdGggZD0iTTU3MS44Nyw3OC4xaC00LjUzVjI3LjE5bC0xNy4yNywxNi43My0zLjA4LTIuNzYtLjA2LS43MywyMC43Ni0yMS4xYy43MS0uNyw0LjE4LDIuODcsNC4xOCwzLjE1djU1LjYyWiIvPgogICAgICAgICAgPHJlY3QgeD0iNTIzLjA1IiB5PSIxOC40NyIgd2lkdGg9IjM2LjI3IiBoZWlnaHQ9IjQuODgiLz4KICAgICAgICAgIDxyZWN0IHg9IjUxMC4xMyIgeT0iNjIuNzkiIHdpZHRoPSIzMC44NyIgaGVpZ2h0PSI0Ljk4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMDguMTggMzkxLjI3KSByb3RhdGUoLTQ1LjA3KSIvPgogICAgICAgICAgPHBhdGggZD0iTTU0MS4wOSw0Mi4yN2M4LjYyLTEuOCwxMC4wMywxMC45MywyLjk4LDEyLjM5LTguNDgsMS43Ni0xMC44Ny0xMC43NS0yLjk4LTEyLjM5WiIvPgogICAgICAgIDwvZz4KICAgICAgPC9nPgogICAgPC9nPgogIDwvZz4KPC9zdmc+" alt="BAF x Stellar" style="height:24px;filter:invert(1);"></div>
+  <nav><a href="#focus">Timeline</a><a href="#explorer">Country detail</a><a href="#download">PDF reports</a></nav>
+</header>
+<section class="hero" aria-label="Six country orbits">
+  <div class="hero-grid">
+    <div class="orbits">
+      <svg id="orb" viewBox="0 0 640 640" role="img" aria-labelledby="orbTitle">
+        <title id="orbTitle">Stellar at the center, six countries in orbit. Select a country to zoom in.</title>
+        <defs>
+          <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <radialGradient id="core"><stop offset="0" stop-color="#FFF4B8"/><stop offset=".55" stop-color="#FDDA24"/><stop offset="1" stop-color="#FDDA24" stop-opacity=".4"/></radialGradient>
+          <radialGradient id="lens"><stop offset="0" stop-color="#0F0F0F" stop-opacity=".96"/><stop offset=".72" stop-color="#0F0F0F" stop-opacity=".93"/><stop offset="1" stop-color="#0F0F0F" stop-opacity="0"/></radialGradient>
+          <radialGradient id="haze"><stop offset="0" stop-color="#FDDA24" stop-opacity=".32"/><stop offset="1" stop-color="#FDDA24" stop-opacity="0"/></radialGradient>
+        </defs>
+        <circle cx="320" cy="320" r="150" fill="url(#haze)"/>
+        <g id="rings"></g>
+        <g id="star"><circle class="star-halo" cx="320" cy="320" r="30"/><circle cx="320" cy="320" r="17" fill="url(#core)" filter="url(#glow)"/></g>
+        <g id="planets"></g>
+        <g id="sats"></g>
+      </svg>
+      <button id="back" type="button">All orbits</button>
+      <div id="zcap"></div>
+    </div>
+    <div class="hero-copy">
+      <h1>Six countries in orbit around Stellar</h1>
+      <p class="lede">August to October 2026, LATAM Ambassador Program. USD 165,000 across Colombia, Mexico, Argentina, Peru, Bolivia and Costa Rica: what happened, what it produced, and what closes the quarter.</p>
+      <div class="legend" id="legend"></div>
+      <p class="hint">Tap a pulsing point to zoom into a country. Satellites around it open the posts, photo albums and on-chain proof.</p>
+    </div>
+  </div>
+</section>
+<section class="focus" id="focus" aria-live="polite"></section>
+<section class="explorer" id="explorer">
+  <div class="explorer-head"><h2>Country detail</h2><p>Every initiative with its status, context, participation, allocation and evidence, in the same structure for all six countries.</p></div>
+  <div class="country-tabs" id="ctabs"></div>
+  <div class="views" id="views"></div>
+  <div class="panel" id="panel"></div>
+</section>
+<section class="dl" id="download">
+  <div><h2>Take the written report</h2><p>Download the designed PDF report for the selected country.</p><p class="note" id="dlnote"></p></div>
+  <div class="dl-actions"><button class="btn solid" id="dlCountry">Download country report (PDF)</button><button class="btn" id="dlAll"></button></div>
+</section>
+<footer></footer>
+</div>
+<script>const DATA = {
+ meta:{period:"August to October 2026",total:165000,
+  rules:[
+   "Qualifying event: minimum 20 attendees and at least 30 minutes of Stellar-specific content",
+   "Monthly Active Developer: one unique person with at least one qualifying contribution in that month; commits never equal developers",
+   "Reported new ambassadors stay pending until reconciled against the official Ambassador Program database",
+   "October items stay scheduled until executed and evidenced",
+   "August is closed. September is still in progress at the time of writing (September 22, 2026)"]},
+ countries:[
+ {id:"co",name:"Colombia",color:"#FDDA24",alloc:30000,ang:-90,
+  tagline:"University cohorts on the Caribbean coast feeding a five-week builder bootcamp with Medellin's innovation agency, followed by a hackathon",
+  context:[
+   ["Barranquilla","Colombia's fourth largest city and main Caribbean port, about 1.3 million people; a young tech scene with far less access to blockchain education than Bogota or Medellin"],
+   ["Medellin","Colombia's second city, known for its urban and innovation transformation"],
+   ["Ruta N","Medellin's public innovation and business center; access to tens of thousands of builders, students and founders"],
+   ["QuillaBlocks","Local blockchain education community in Barranquilla; BAF's execution partner for instruction, GitHub challenges and Soroban exercises"],
+   ["Universidad de la Costa (CUC)","Private university with strong engineering programs; hosted one of the two stable cohorts"],
+   ["Universidad del Norte","Leading private research university on the Caribbean coast; hosted the second cohort"]],
+  impact:[["110","verified technical contributions on GitHub and Stellar (testnet and mainnet)",true],["21","smart contracts deployed by participants on testnet, each with a unique Wasm hash"],["6","qualifying events in August and September"],["175","participant-attendances across Barranquilla"],["~480","Ruta N registrations; 200 live in the first session"],["4 of 3","ecosystem partners, target exceeded"]],
+  timeline:[
+   {d:"Apr 22",t:"First conversation with Ruta N",m:"Five months of institutional development begin",k:"Partnership pipeline"},
+   {d:"Aug 24",t:"BAF x Ruta N formalized",m:"Partnership formally communicated, execution enabled",k:"Partner 4 of 4"},
+   {d:"Aug 26",t:"CUC Session 1: Introduction to Blockchain",m:"Keypairs, Friendbot, testnet payments, Freighter; 38 attendees",k:"Completed"},
+   {d:"Aug 27",t:"Uninorte Session 1: Introduction to Blockchain",m:"Same progression; 35 attendees",k:"Completed"},
+   {d:"Sep 1",t:"Uninorte Session 2: Stellar and Soroban in Practice",m:"Crowdfunding contracts on testnet; 570 XLM raised; 28 attendees",k:"Completed"},
+   {d:"Sep 3",t:"CUC Session 2: Stellar and Soroban in Practice",m:"310 XLM raised from 6 contributors; 25 attendees",k:"Completed"},
+   {d:"Sep 10",t:"CUC Session 3: Deploy and Contribute",m:"6 contracts deployed, 6 project concepts pitched; 25 attendees",k:"Completed"},
+   {d:"Sep 15",t:"Uninorte Session 3: Deploy and Contribute",m:"5 contracts deployed, 5 project concepts pitched; 24 attendees",k:"Completed"},
+   {d:"Sep 21",t:"Ruta N Bootcamp launch",m:"200 participants connected live in the first of ten formal sessions",k:"In progress"},
+   {d:"October",t:"4 in-person activations",m:"Close remaining 20 ambassadors and qualifying events; 35 attendees each",k:"Scheduled",next:true},
+   {d:"Late Oct",t:"Ruta N Demo Day",m:"Pitch, prototype, verifiable transaction and 30-day roadmap per team",k:"Scheduled",next:true},
+   {d:"Late Nov",t:"Follow-on hackathon",m:"Pre-production this quarter; execution after the bootcamp ends",k:"Scheduled",next:true}],
+  kpis:[["New Active Ambassadors","60","20","20","+20 from Ruta N and October activations"],["Qualifying Events","9","2","4","+4 in-person events"],["Monthly Active Developers","300 dev-months","40","40 + Ruta N contributions being captured","~110 per month from Ruta N conversion"],["SCF Projects / Awards","6 / 3","Consolidating","Barranquilla concepts in review","Ruta N teams through Demo Day"],["Ecosystem Partners","3","3","+1 (Ruta N) = 4 total","Target exceeded"]],
+  sep:["Onboarding evidence for the 20 September ambassadors","Evidence pack for the 4 September sessions (Luma, attendance, photos)","Unique GitHub contributors from Ruta N weeks 1 and 2, traced by month","Final list behind the 21 deployed contracts"],
+  october:["20 verified ambassadors with per-person onboarding evidence","4 qualifying events with full evidence","About 110 unique developers per month from Ruta N","Project pipeline: 11 Barranquilla concepts and Ruta N teams toward Instawards and SCF"],
+  budget:[["Stellar Campus Barranquilla, 6 sessions, 175 attendees","Completed",7000],["October activations, 4 events, 140 projected","Scheduled",5600],["Ruta N Bootcamp, 5-week program","In progress",12960],["Ruta N Hackathon pre-production","In preparation",4440]],
+  initiatives:[
+   {n:"Stellar Campus Barranquilla",s:"CUC and Universidad del Norte, Aug 26 to Sep 15",a:7000,st:"Completed",
+    p:"Six in-person sessions as two stable three-session cohorts. Stage 1: blockchain fundamentals, keypairs, Friendbot, testnet payments. Stage 2: JavaScript SDK, Soroban, crowdfunding contracts on testnet. Stage 3: Rust modification, Wasm compilation, contract deployment, project pitches",
+    facts:["175 participant-attendances across six sessions","110 verified technical contributions (testnet accounts, forks, issues, PRs, contracts, project ideas, mainnet prize transactions)","21 smart contracts deployed with unique Wasm hashes","11 project concepts: Palco, Consensus Fund, mottPay, Heredamela, TransportAim, CuadraViva, WeFee, CompuSector, HoySiFio, SencilloApp, Stash","USD 270 in prizes, 100% traced on-chain with 17 mainnet transactions"],
+    bars:[["CUC Session 1 (38 att.)","1520"],["Uninorte Session 1 (35)","1400"],["Uninorte Session 2 (28)","1120"],["CUC Session 2 (25)","1000"],["CUC Session 3 (25)","1000"],["Uninorte Session 3 (24)","960"]],
+    ev:[["GitHub","Repository","https://github.com/QuillaBlocks/stellar-campus"],["Data","Ambassador sheet","https://docs.google.com/spreadsheets/d/1p4Uml1_gyFEZ4LoRzjwjFe7DqNJqMZgY-nuq9oxrMm8/edit?gid=523794812#gid=523794812"],["On-chain","CUC crowdfunding contract","https://stellar.expert/explorer/testnet/contract/CDF5IJWNCGNPBWTFCW3PWRXKPWZTPKQSHHRRYTSSCXKQ37U2CPDONSZ2"],["On-chain","Uninorte crowdfunding contract","https://stellar.expert/explorer/testnet/contract/CBMBKCV3I474M7MLNGPTIVSDK53IGGQPT6YOS2P7SNKMQNYX65L2CZXJ"],["Photos","CUC Session 1","https://drive.google.com/drive/folders/1TRXeookuzzOMwfTHjPca4DtcZ4YpIFoK?usp=sharing"],["Photos","Uninorte Session 1","https://drive.google.com/drive/folders/1Z46k-nqmnZQm8Rmlr-ywtQbsljRtL8rN?usp=drive_link"],["Photos","Uninorte Session 2","https://drive.google.com/drive/folders/1S3JISO5E2FcK6hmT40wXRDB_ocXsCbzx?usp=drive_link"],["Photos","CUC Session 2","https://drive.google.com/drive/folders/1r7MM8o9aD8pWg6JgDo42-cX57jTwFrLl?usp=drive_link"],["Photos","CUC Session 3","https://drive.google.com/drive/folders/1ME27RihO12PbK7PJKOaU9vROmm4QpOMt?usp=drive_link"],["Photos","Uninorte Session 3","https://drive.google.com/drive/folders/1o58KGcBSQtNno5FasoCHlIIoxDhmXy42?usp=drive_link"],["Instagram","QuillaBlocks reel 1","https://www.instagram.com/reel/Dctial7RiIo/"],["Instagram","QuillaBlocks reel 2","https://www.instagram.com/reel/DdCCtExR0Ca/"],["Luma","CUC S1","https://luma.com/lcaw4kou"],["Luma","Uninorte S1","https://luma.com/8dhiblbh"],["Luma","Uninorte S2","https://luma.com/dtr89hm4"],["Luma","CUC S2","https://luma.com/o3vvn64c"],["Luma","CUC S3","https://luma.com/58ei7wzy"],["Luma","Uninorte S3","https://luma.com/qiw2i356"]]},
+   {n:"BAF x Ruta N Bootcamp",s:"5 weeks, Sep 21 to week of Oct 19, virtual",a:12960,st:"In progress",
+    p:"Ten formal sessions, ~50 hours of mentoring, weekly deliverables from problem brief to functional MVP and Demo Day. Graduation: 70% attendance, 80% deliverables, 80/100 score. Colombia absorbed the program-development cost; the same infrastructure is reused for the Mexico CANACINTRA Bootcamp at zero incremental cost",
+    facts:["~26,000 people reached, ~480 registered, 200 live in session 1","Academic lead ~240 preparation hours, technical lead ~120","Curriculum, Discord infrastructure and mentoring workflows reused in Mexico"],
+    bars:[["Academic delivery","6900"],["Material creation","4500"],["Content creation","1310"],["Incentives","250"]],
+    ev:[["Data","Participant database","https://docs.google.com/spreadsheets/d/1fsDOfSrvY8hsPlz7xA77o9bviYnxVmXKtCa7vBWmk2M/edit"],["Material","Instructional presentation","https://drive.google.com/file/d/1oGbZym0QWMRTDQWv-Tkh9xcHfu9X35n6/view"],["Material","Campaign graphics","https://drive.google.com/drive/folders/126xQIhFBAtJlZfWSZ996Ra7Dp9unX-Qi"],["Instagram","Launch post","https://www.instagram.com/p/Dc4U4RoxMGT/"],["Instagram","Program post","https://www.instagram.com/p/DdHnAftR73I/"],["Instagram","Bootcamp reel","https://www.instagram.com/reel/DdMwD0URRCH/"]]},
+   {n:"October activations",s:"4 in-person qualifying events, 35 attendees each",a:5600,st:"Scheduled",p:"Close remaining ambassadors and qualifying events",facts:["Closes events 7 to 10","Closes ambassadors 41 to 60"],bars:[],ev:[]},
+   {n:"Ruta N Hackathon pre-production",s:"Execution late November",a:4440,st:"In preparation",p:"Continuation layer for the strongest bootcamp participants; six workstreams: technical program design, operations, outreach, design and communications, content creation, judging",facts:[],bars:[],ev:[]}],
+  risks:[["Developer evidence consolidation","Medium","110 contributions verified; unique-developer-per-month count being finalized"],["October event logistics","Medium","Four events scheduled; cities and partners to confirm"],["Hackathon timeline","Low","November window and judges to confirm"]]},
+
+ {id:"mx",name:"Mexico",color:"#B7ACE8",alloc:30000,ang:28,
+  tagline:"Faculty training, three industry ideathons, a four-university tour, UNAM's hackathon and a bootcamp built on Colombia's infrastructure",
+  context:[
+   ["CANACINTRA","Mexico's national chamber of manufacturing industry; opened the doors to the ideathons and the online bootcamp"],
+   ["TESH","Tecnologico de Estudios Superiores de Huixquilucan; BAF trained its faculty first so the institution can teach Stellar independently"],
+   ["UTEZ, UAEM, UVM","Three universities in the State of Mexico and Morelos where CANACINTRA ideathons ran"],
+   ["BUAP","One of the largest public universities in Mexico; campus in Zacatlan, a mountain town far from tech hubs"],
+   ["ITSSNP, UNIPUEBLA, UGM","Three universities in the Puebla region reached by the Unlock Summit tour"],
+   ["UNAM","The largest university in Latin America; the Goya Hack is run by its Electrical Engineering Division"],
+   ["CeMITT and Fondo Morelos","State innovation center and small-business finance institute"]],
+  impact:[["11","qualifying events before October, 122% of the target",true],["929","participant-attendances in August and September"],["14","ecosystem partners against a target of 3"],["~174","students working in project teams from the ideathons"],["USD 1,000","incremental cost of the bootcamp; Colombia absorbed the development"]],
+  timeline:[
+   {d:"Apr 20",t:"CANACINTRA conversations start",m:"Industry chamber, CeMITT and UTEZ at the table",k:"Partnership pipeline"},
+   {d:"Aug 12",t:"TESH Faculty Session 1",m:"20 professors trained",k:"Completed"},
+   {d:"Aug 14",t:"TESH Faculty Session 2",m:"20 professors, continued",k:"Completed"},
+   {d:"Aug 21",t:"TESH Faculty Session 3",m:"22 participants including 5 coordinators",k:"Completed"},
+   {d:"Aug 25",t:"UTEZ Ideathon",m:"54 attendees, all in project teams",k:"Completed"},
+   {d:"Aug 27",t:"UAEM Ideathon",m:"96 attendees, ~70 in project teams",k:"Completed"},
+   {d:"Aug 28",t:"UVM Ideathon",m:"108 attendees, ~50 in project teams",k:"Completed"},
+   {d:"Sep 7",t:"BUAP Zacatlan",m:"174 attendees (114 registered); university opened to walk-ins",k:"Completed"},
+   {d:"Sep 8",t:"ITSSNP",m:"74 attendees (45 registered)",k:"Completed"},
+   {d:"Sep 9",t:"UNIPUEBLA + UGM",m:"74 + 87 attendees in one day",k:"Completed"},
+   {d:"Sep 18",t:"CANACINTRA Online Bootcamp opens",m:"249 registered, 80 in session 1; Colombia's methodology reused",k:"In progress"},
+   {d:"Sep 22",t:"Goya Hack at UNAM",m:"Five-day hackathon with ~200 registered engineers",k:"In progress"},
+   {d:"October",t:"TESH Student Bootcamp",m:"From trained faculty to students, 4 sessions (postponed from Sep)",k:"Scheduled",next:true},
+   {d:"October",t:"CeMITT + Fondo Morelos",m:"Technology transfer and small-business financing for builders",k:"Scheduled",next:true},
+   {d:"October",t:"Incubaton",m:"Real business problems, entrepreneurs and the tourism sector",k:"Scheduled",next:true}],
+  kpis:[["New Active Ambassadors","60","24","0","24"],["Qualifying Events","9","6","5 (Goya Hack ends Sep 26)","Achieved; 0 more needed"],["Monthly Active Developers","300","66","0","66"],["SCF Projects / Awards","6 / 3","Ideathon teams formed","Moving into bootcamp","Incubation and referrals"],["Ecosystem Partners","3","Exceeded","14 documented","Achieved"]],
+  sep:["Goya Hack closeout after Sep 26: attendance, teams, repos, developers, photos","Per-person ambassador attribution across seven event source lists","Bootcamp weeks 1 and 2 developer contributions"],
+  october:["Ambassador count closed at 60 with per-person evidence","Unique developers from bootcamp, TESH students and October programs","Execution evidence for TESH students, CeMITT + Fondo Morelos and Incubaton"],
+  budget:[["TESH Faculty Bootcamp, 3 sessions","Completed",2400],["CANACINTRA Ideathons, 3 events, 258 attendees","Completed",6000],["Unlock Summit University Tour, 4 events, 409 attendees","Completed",8000],["UNAM Goya Hack sponsorship","In progress",5200],["CANACINTRA Online Bootcamp","In progress",1000],["TESH Student Bootcamp, 4 sessions (postponed)","Scheduled",2400],["CeMITT + Fondo Morelos","Scheduled",2400],["Incubaton with Secretaria de Turismo","Scheduled",2600]],
+  initiatives:[
+   {n:"TESH Faculty Bootcamp",s:"3 sessions in Huixquilucan, Aug 12, 14, 21",a:2400,st:"Completed",p:"Train-the-trainer: 20 professors and 5 coordinators learn blockchain and Stellar so the institution can teach independently",facts:["Attendance: 20, 20, 22","Per session: transportation 211, catering 207, instructor 150, merch 83, per diem 50, volunteer 50, photography 50"],bars:[["Session 1","800"],["Session 2","800"],["Session 3","800"]],ev:[["Photos","TESH sessions","https://drive.google.com/drive/folders/1LblKcSkn2SmC-nJEUpTKJg7-f_63B_6M?usp=drive_link"],["Instagram","TESH post","https://www.instagram.com/p/DdVmvQ_IJJI/"]]},
+   {n:"CANACINTRA University Ideathons",s:"UTEZ Aug 25, UAEM Aug 27, UVM Aug 28",a:6000,st:"Completed",p:"Full-day format with the national industry chamber: blockchain and Stellar, blockchain in industry, four hours of project mentoring, pitch and awards",facts:["UTEZ: 54 attended, all 54 in project teams","UAEM: 96 attended, ~70 in project teams","UVM: 108 attended, ~50 in project teams"],bars:[["UTEZ (54 att.)","1408"],["UAEM (96)","2185"],["UVM (108)","2407"]],ev:[["Photos","UTEZ","https://drive.google.com/drive/folders/1fQTMWTobeUvJnYUc4nvPdtoveCKDUJ2K"],["Photos","UAEM","https://drive.google.com/drive/folders/1vu2-mMz7nC9JuuX6jvx4tMLLpmcjG9V5"],["Photos","UVM","https://drive.google.com/drive/folders/16eEJRTWnKzR-GSFyOjgQ6LsOs7HQWCVU"],["Instagram","Ideathon post","https://www.instagram.com/p/DczYUGNmeNe/"]]},
+   {n:"Unlock Summit University Tour",s:"BUAP, ITSSNP, UNIPUEBLA, UGM; Sep 7 to 9",a:8000,st:"Completed",p:"One regional route with shared travel; attendance beat registration at every stop because universities opened to walk-ins",facts:["BUAP 174, ITSSNP 74, UNIPUEBLA 74, UGM 87 = 409 attendees","Shared travel USD 935 (car 250, lodging 200, per diem 360, gasoline 85, tolls 40)"],bars:[["BUAP (174 att.)","2900"],["UGM (87)","1525"],["ITSSNP (74)","1320"],["UNIPUEBLA (74)","1320"],["Shared travel","935"]],ev:[["Photos","BUAP Zacatlan","https://drive.google.com/drive/folders/1UtlVBPIeU1Q1E3mtikRi_f0Xhc4hz9tk"],["Photos","ITSSNP","https://drive.google.com/drive/folders/1Febt2gvz8ZEMlBYvUSm4P3i6YPVUr4gX"],["Photos","UNIPUEBLA","https://drive.google.com/drive/folders/14C699NbTI1zIwLgWgeTtSGf861kueyIK"],["Photos","UGM","https://drive.google.com/drive/folders/1lHMR2owOXZwFGk1yExOHAKl6FrGoLfdj"],["Instagram","Tour post 1","https://www.instagram.com/p/DdLQaFBDfub/"],["Instagram","Tour post 2","https://www.instagram.com/p/DdKgD2OFBza/"]]},
+   {n:"UNAM Goya Hack",s:"Sep 22 to 26, five days",a:5200,st:"In progress",p:"Sponsorship and program participation in a five-day hackathon by UNAM's Electrical Engineering Division; ~200 registered engineers",facts:["Closeout pending: attendance, teams, repos, developers, photos"],bars:[["Sponsorship","5200"]],ev:[["Luma","Goya Hack","https://luma.com/0oogs8ym"]]},
+   {n:"BAF x CANACINTRA Online Bootcamp",s:"Sep 18 to Oct 23, 5 weeks",a:1000,st:"In progress",p:"Colombia's Ruta N methodology adapted to Mexico at zero incremental development cost; Mexico funds only weekly incentives, two mentors and Friday mentoring",facts:["249 registered, 80 in session 1"],bars:[["Friday mentoring","450"],["Incentives","250"],["Mentor 1","150"],["Mentor 2","150"]],ev:[["Data","Participant database","https://docs.google.com/spreadsheets/d/16KwZSqBQ6DFYFL-QogTPTNqt3ioir8F-udwnlLWUNFk/edit"],["Material","Campaign graphics","https://drive.google.com/drive/folders/1FCpFZQg_xj7oMJSfF4TLqVjRKaXmqq8W"],["Instagram","Bootcamp reel","https://www.instagram.com/reel/DdXLb8zRUkm/"]]},
+   {n:"TESH Student Bootcamp",s:"October, 4 sessions (postponed from Sep)",a:2400,st:"Scheduled",p:"From trained faculty to direct student education",facts:[],bars:[],ev:[]},
+   {n:"CeMITT + Fondo Morelos",s:"October",a:2400,st:"Scheduled",p:"Technology transfer and small-business financing for builders",facts:[],bars:[],ev:[]},
+   {n:"Incubaton",s:"October, with CANACINTRA and Secretaria de Turismo",a:2600,st:"Scheduled",p:"Real business problems, entrepreneurs and incubation",facts:[],bars:[],ev:[]}],
+  risks:[["Ambassador attribution","Medium","Per-person reconciliation required across 1,394 unique people"],["Developer evidence","Medium","No person-level GitHub reconciliation yet"],["October execution","Medium","Three programs scheduled; dates being confirmed"]]},
+
+ {id:"ar",name:"Argentina",color:"#00A7B5",alloc:30000,ang:152,
+  tagline:"Five in-person activations feeding an intensive two-week virtual Builder Challenge with external mentors, plus three large NovaSur activations in October",
+  context:[
+   ["CABA","Buenos Aires, the capital and main tech hub"],
+   ["Salta and Corrientes","Provincial capitals rarely reached by blockchain programs"],
+   ["Xplora UCEMA","Entrepreneurship hub of Universidad del CEMA"],
+   ["NovaSur","Ecosystem organization behind the Foro de Innovacion y Negocios and three October activations"]],
+  impact:[["194","commits measured in the Builder Challenge",true],["243","participant-attendances across 5 events"],["109","Builder Challenge participants"],["372","projected October attendees across 4 events"],["21","structured program touchpoints"]],
+  timeline:[
+   {d:"Aug 24",t:"NovaSur x BAF Forum",m:"Stellar inside a business and innovation forum; 58 attendees",k:"Completed"},
+   {d:"Sep 11",t:"Startup Day, Xplora UCEMA",m:"Largest activation; 96 attendees",k:"Completed"},
+   {d:"Sep 12",t:"Builder Challenge kickoffs: CABA, Salta, Corrientes",m:"35 + 33 + 21 attendees as physical entry points",k:"Completed"},
+   {d:"Sep 12 to 26",t:"Builder Challenge, virtual",m:"6 workshops, 12 office-hour blocks, 2 checkpoints; 109 participants, 194 commits",k:"In progress"},
+   {d:"Oct 2",t:"Results live",m:"Demos, selected projects, Instawards and SCF referrals",k:"Scheduled",next:true},
+   {d:"October",t:"Education x e4c",m:"30 projected attendees",k:"Scheduled",next:true},
+   {d:"October",t:"NEA Tech 1, 2, 3",m:"100 + 100 + 142 projected attendees",k:"Scheduled",next:true}],
+  kpis:[["New Active Ambassadors","60","47 reported","224 reported","Database validation required"],["Qualifying Events","9","1","4","+4 events (e4c + NovaSur x3)"],["Monthly Active Developers","300 dev-months","No technical program","194 commits, challenge closes Sep 26","Unique contributors by month"],["SCF Projects / Awards","6 / 3","No activity","Projects in build","Results Oct 2, referrals"],["Ecosystem Partners","3","NovaSur","Xplora UCEMA","Formal attribution pending"]],
+  sep:["Builder Challenge closes Sep 26: projects, repos, demos","194 commits mapped to unique contributors","Ambassador validation for the five events"],
+  october:["Four events with registration, attendance, photos, Stellar content","Results session Oct 2: Instawards and SCF referrals","Builder Challenge final reconciliation"],
+  budget:[["NovaSur Forum (58 att.)","Completed",2320],["UCEMA Startup Day (96 att.)","Completed",3840],["Kickoff CABA (35 att.)","Completed",1400],["Kickoff Salta (33 att.)","Completed",1320],["Kickoff Corrientes (21 att.)","Completed",840],["Education x e4c (30 att.)","Scheduled",1200],["NEA Tech 1 (100 att.)","Scheduled",4000],["NEA Tech 2 (100 att.)","Scheduled",4000],["NEA Tech 3 (142 att.)","Scheduled",5680],["Argentina Builder Challenge","In progress",5400]],
+  initiatives:[
+   {n:"NovaSur x BAF Forum",s:"Aug 24; 58 attendees",a:2320,st:"Completed",p:"Stellar inside a business and innovation forum; 47 new ambassadors reported",facts:[],bars:[["Catering","1300"],["Materials","390"],["Venue","325"],["Production","325"],["Photography","130"],["Technical delivery","130"]],ev:[["Luma","NovaSur","https://luma.com/ombiew9n"],["Photos","NovaSur","https://drive.google.com/drive/folders/1JxKUawJfmIuxXMHXinWx-I9Y9TfsC4ct"],["Instagram","NovaSur post","https://www.instagram.com/p/DdCaZ4aGW9q/"]]},
+   {n:"Startup Day, Xplora UCEMA",s:"Sep 11; 96 attendees",a:3840,st:"Completed",p:"Largest activation at a university entrepreneurship hub; 93 new ambassadors reported",facts:[],bars:[["Catering","2400"],["Materials","720"],["Venue","600"],["Production","600"],["Photography","240"],["Technical delivery","240"]],ev:[["Web","Xplora UCEMA","https://startupday.xploraucema.com/"],["Photos","UCEMA","https://drive.google.com/drive/folders/1LRqaZrP-ONQnzRTJHTPJT99JAdZqpIcx"]]},
+   {n:"Builder Challenge kickoff, CABA",s:"Sep 12; 35 attendees",a:1400,st:"Completed",p:"Physical entry point for the national virtual program",facts:[],bars:[["Catering","840"],["Materials","252"],["Venue","210"],["Production","210"],["Photography","84"],["Technical delivery","84"]],ev:[["Luma","CABA","https://luma.com/starmaker-vd0r"],["Photos","CABA","https://drive.google.com/drive/u/0/folders/1_pD2HUWcd7I577P0meKqB8vuR4hqfORG"],["X","CABA post","https://x.com/TheBAFNetwork/status/2097385443104792992"]]},
+   {n:"Builder Challenge kickoff, Salta",s:"Sep 12; 33 attendees",a:1320,st:"Completed",p:"Regional entry point in the northwest",facts:[],bars:[["Catering","700"],["Materials","210"],["Venue","175"],["Production","175"],["Photography","70"],["Technical delivery","70"]],ev:[["Luma","Salta","https://luma.com/1jp3wlnj"]]},
+   {n:"Builder Challenge kickoff, Corrientes",s:"Sep 12; 21 attendees",a:840,st:"Completed",p:"Regional entry point in the northeast",facts:[],bars:[["Catering","460"],["Materials","138"],["Venue","115"],["Production","115"],["Photography","46"],["Technical delivery","46"]],ev:[["Luma","Corrientes","https://luma.com/starmaker-zrb2"]]},
+   {n:"Argentina Builder Challenge",s:"Sep 12 to 26, virtual; results Oct 2",a:5400,st:"In progress",p:"Two-week intensive: Stellar from zero, Soroban, AI-powered building, feature scoping, go-to-market, funding-readiness package, checkpoints and a pitch workshop on Instawards; 26+ synchronous hours",facts:["109 participants, 194 commits","Office hours with Dario, Bootnode, Elisa, Steven, Federico"],bars:[["Mentorship","1800"],["Expert delivery","1200"],["Architecture","600"],["Curriculum","600"],["Operations","500"],["Technical review","400"],["Hackathon ops","300"]],ev:[["Data","Skool repository","https://www.skool.com/argentina-builder-challenge-9888/classroom"],["Data","Calendar (21 Lumas)","https://docs.google.com/spreadsheets/d/1FIcTeRfn5mykGeW2WGeqiGsh7-hzZidsbAL82bArYhw/edit"],["Photos","Builder Challenge","https://drive.google.com/drive/folders/1r8mB8zVNpYSnlmT5DBDlVvKXrc4KdmFt"],["Instagram","Builder Challenge","https://www.instagram.com/p/DdCv6FMmZQq/"],["X","Builder Challenge","https://x.com/aleregex/status/2101082133359886413"],["Luma","Results Oct 2","https://luma.com/starmaker-9icq"]]},
+   {n:"Education x e4c",s:"October; 30 projected attendees",a:1200,st:"Scheduled",p:"Education-focused activation",facts:[],bars:[],ev:[]},
+   {n:"NEA Tech 1",s:"October; 100 projected attendees",a:4000,st:"Scheduled",p:"Large ecosystem activation",facts:[],bars:[],ev:[]},
+   {n:"NEA Tech 2",s:"October; 100 projected attendees",a:4000,st:"Scheduled",p:"Large ecosystem activation",facts:[],bars:[],ev:[]},
+   {n:"NEA Tech 3",s:"October; 142 projected attendees",a:5680,st:"Scheduled",p:"Largest activation of the quarter",facts:[],bars:[],ev:[]}],
+  risks:[["Event delivery","Medium","Four events scheduled; NovaSur partnership confirmed"],["Builder Challenge substantiation","Medium","USD 5,400 to be reconciled against actual costs"],["Ambassador validation","Medium","271 reported require database reconciliation"]]},
+
+ {id:"pe",name:"Peru",color:"#D6D2C4",alloc:15000,ang:214,
+  tagline:"Exploratory chapter at half scale: four technical August activations in Lima, the Stellar Odyssey hackathon, and 22 documented developer commits",
+  context:[
+   ["Exploratory chapter","Peru runs at USD 15,000 (half scale) while BAF tests demand"],
+   ["Lima","Capital and home to most of Peru's tech community"],
+   ["PUCP","Pontificia Universidad Catolica del Peru, the country's top university"],
+   ["Minted in PE","Local community hosting the Stellar Odyssey program website"]],
+  impact:[["159","participant-attendances across four August activations",true],["22","developer commits documented"],["113","reported new ambassadors, pending validation"],["2","Stellar Odyssey touchpoints"],["4","additional activations scheduled for October"]],
+  timeline:[
+   {d:"Aug 13",t:"Stellar Shield",m:"Cybersecurity and smart contracts; 34 attendees",k:"Completed"},
+   {d:"Aug 15",t:"Build Your First dApp",m:"Hands-on application development; 28 attendees",k:"Completed"},
+   {d:"Aug 18",t:"Discover Stellar",m:"Largest August activation; 56 attendees",k:"Completed"},
+   {d:"Aug 30",t:"Live-Coding on Stellar",m:"Practical development session; 41 attendees",k:"Completed"},
+   {d:"Sep 19",t:"Stellar Odyssey, virtual",m:"Hackathon kickoff on Google Meet",k:"In progress"},
+   {d:"Sep 26",t:"Stellar Odyssey at PUCP",m:"University touchpoint",k:"Scheduled",next:true},
+   {d:"October",t:"4 additional activations",m:"35 attendees each",k:"Scheduled",next:true}],
+  kpis:[["New Active Ambassadors","30","113","0","113"],["Qualifying Events","~5","4","1 initiative (Odyssey)","+4 activations"],["Monthly Active Developers","150 dev-months","22 commits documented","Odyssey in progress","Workshop and Odyssey contributors"],["SCF Projects","~3","No activity","Teams forming","Judging and referrals"],["Ecosystem Partners","2","0","2","2"]],
+  sep:["Odyssey attendance for Sep 19 and 26","Validation of 113 reported ambassadors","Repositories from dApp workshop and live-coding"],
+  october:["Four qualifying events with full evidence","Odyssey teams, demos, judging, prizes","Developer evidence by month","PUCP partnership documented"],
+  budget:[["4 completed activations, 159 attendees","Completed",6360],["4 additional activations, 140 projected","Scheduled",5600],["Stellar Odyssey hackathon","In progress",3040]],
+  initiatives:[
+   {n:"Stellar Shield",s:"Aug 13; 34 attendees",a:1360,st:"Completed",p:"Cybersecurity and smart contracts; 24 new ambassadors reported",facts:[],bars:[["Venue","120"],["Catering","476"],["Merch","204"],["Instructor","200"],["Photography","120"],["Incentives","100"],["Program","140"]],ev:[["Luma","Stellar Shield","https://luma.com/gc59vkun"],["Photos","Stellar Shield","https://drive.google.com/file/d/1W03-P7pHAEpXW-bU-xb1Y-ZLIhXx2WDG/view"],["X","Post","https://x.com/eduruizhipolito/status/2087168935749648854"]]},
+   {n:"Build Your First dApp",s:"Aug 15; 28 attendees",a:1120,st:"Completed",p:"Hands-on application development on Stellar; 21 new ambassadors reported",facts:[],bars:[["Venue","120"],["Catering","392"],["Merch","168"],["Instructor","200"],["Photography","100"],["Incentives","60"],["Program","80"]],ev:[["Luma","dApp Workshop","https://luma.com/h7unwtyb"],["Photos","dApp Workshop","https://drive.google.com/drive/folders/1obeQVdUP_up6k0SMYoelVbDR1XPtfJHU"]]},
+   {n:"Discover Stellar",s:"Aug 18; 56 attendees",a:2240,st:"Completed",p:"Largest August activation: Web3 and ecosystem opportunities; 44 new ambassadors reported",facts:[],bars:[["Venue","180"],["Catering","784"],["Merch","336"],["Instructor","250"],["Photography","150"],["Incentives","150"],["Program","390"]],ev:[["Luma","Discover Stellar","https://luma.com/w4d8tmy6"],["Photos","Discover Stellar","https://drive.google.com/drive/folders/12QOaCXOwNq4-m11B3Qt8tnQ-qVNPPmlp"]]},
+   {n:"Live-Coding on Stellar",s:"Aug 30; 41 attendees",a:1640,st:"Completed",p:"Practical development in a live session; 24 new ambassadors reported",facts:[],bars:[["Venue","150"],["Catering","574"],["Merch","246"],["Instructor","200"],["Photography","130"],["Incentives","100"],["Program","240"]],ev:[["Luma","Live-Coding","https://luma.com/ekhytvtr"],["Photos","Live-Coding","https://drive.google.com/drive/folders/17eWOn4FvJXEgQRMwpiIK53Hs6L2YyS8g"],["X","Post","https://x.com/eduruizhipolito/status/2092946839632830670"],["Data","Commits spreadsheet","https://docs.google.com/spreadsheets/d/1iPG291nln8j5k7DjyY1bEgNtZJuoclAt/edit"]]},
+   {n:"Stellar Odyssey Peru",s:"Sep 19 virtual, Sep 26 PUCP",a:3040,st:"In progress",p:"Hackathon with mentorship as the largest line and prizes capped at 5%",facts:[],bars:[["Architecture","456"],["Curriculum","456"],["Experts","456"],["Mentorship","608"],["Judging","395"],["Operations","365"],["Prizes","152"],["Communications","152"]],ev:[["Luma","Odyssey virtual","https://luma.com/jod7r3z7"],["Luma","Odyssey PUCP","https://luma.com/yhyd7unb"],["LinkedIn","Announcement","https://www.linkedin.com/posts/eduruizhipolito_1000-usd-en-premios"],["Instagram","Odyssey reel","https://www.instagram.com/reel/DdUFkntCdRo/"],["Web","Program website","https://stellar.mintedinpe.com/odyssey?v=2"]]},
+   {n:"4 additional activations",s:"October; 35 attendees each",a:5600,st:"Scheduled",p:"Cities, dates and partners to be confirmed",facts:[],bars:[],ev:[]}],
+  risks:[["Financial substantiation","Medium","USD 3,040 for Odyssey must be supported by documented program work"],["Format validation","Medium","Confirm four August activities were in-person"],["Odyssey attendance","Medium","Missing for both September touchpoints"]]},
+
+ {id:"bo",name:"Bolivia",color:"#F6F7F8",alloc:30000,ang:-34,
+  tagline:"Six developer coworks in two cities, a six-week acceleration batch and a nine-event ideathon across three cities",
+  context:[
+   ["La Paz","Seat of government at 3,600 m; large student population"],
+   ["Santa Cruz","Largest city and economic engine"],
+   ["Cochabamba","Central city with a strong university base; joins the ideathon"],
+   ["Stellar Devs Coworks","BAF's own format: onboarding, commit sprints and demo days"]],
+  impact:[["9","full-day events across three cities in the October ideathon",true],["210","cowork participant-attendances"],["43","acceleration batch participants"],["48 h","of structured mentorship in the batch"],["38","reported new ambassadors"]],
+  timeline:[
+   {d:"Sep 1",t:"Acceleration Batch starts",m:"Six weeks: fundamentals through SCF readiness; 43 participants",k:"In progress"},
+   {d:"Sep 5",t:"Build and Connect",m:"La Paz and Santa Cruz: onboarding, pairing; 35 each",k:"Completed"},
+   {d:"Sep 12",t:"Commit Sprint",m:"GitHub workflow and first contributions; 35 each",k:"Completed"},
+   {d:"Sep 19",t:"Demo and Referral Day",m:"Demos, project conversion, SCF referrals; 35 each",k:"Completed"},
+   {d:"Oct 3",t:"University activation, Santa Cruz",m:"Institution to be confirmed",k:"Scheduled",next:true},
+   {d:"Oct 12",t:"Batch closes",m:"Final demos, SCF drafts, contributor evidence",k:"Scheduled",next:true},
+   {d:"Oct 15 to 17",t:"Three-city Ideathon",m:"La Paz, Cochabamba and Santa Cruz; 9 full-day events",k:"Scheduled",next:true}],
+  kpis:[["New Active Ambassadors","60","No activity","38 reported","Validation + ideathon onboarding"],["Qualifying Events","9","No activity","6 coworks","+3 ideathon + university"],["Monthly Active Developers","300 dev-months","No activity","Batch contributions being captured","Batch close + ideathon builds"],["SCF Projects / Awards","6 / 3","No activity","Demo Day projects","Batch SCF drafts, ideathon teams"],["Ecosystem Partners","3","No activity","Cowork venues","Ideathon + university partners"]],
+  sep:["Attendance reconciled cowork by cowork","Batch contributions weeks 1 to 4 by developer","Validation of 38 reported ambassadors"],
+  october:["Batch completion with demos and SCF drafts","Ideathon executed in three cities (9 events)","University activation in Santa Cruz","Developer map: name to repo to month"],
+  budget:[["6 Coworks, 210 attendees","Completed",8400],["Acceleration Batch, 6 weeks, 43 participants","In progress",6000],["Ideathon physical, 3 cities x 3 days","Scheduled",11100],["Ideathon programmatic layer","Scheduled",4500]],
+  initiatives:[
+   {n:"Stellar Devs Coworks",s:"La Paz and Santa Cruz, Sep 5, 12, 19",a:8400,st:"Completed",p:"Recurring developer activation: Build and Connect, Commit Sprint, Demo and Referral Day in each city; 35 attendees per cowork",facts:["6 coworks, 210 total attendances"],bars:[["LP-01 Build & Connect","1400"],["SC-01 Build & Connect","1400"],["LP-02 Commit Sprint","1400"],["SC-02 Commit Sprint","1400"],["LP-03 Demo Day","1400"],["SC-03 Demo Day","1400"]],ev:[["Luma","La Paz","https://luma.com/ety59c38"],["Photos","La Paz","https://drive.google.com/drive/folders/17SYzH2C4XYrEyukICiHgWUla-zdgiig7"],["Luma","Cochabamba","https://luma.com/4qjksk9d"],["Photos","Cochabamba","https://drive.google.com/drive/folders/1lUZ3GBch1Pa4Hgn9QjLg0jzdrZYhZg-G"],["Photos","Santa Cruz","https://drive.google.com/drive/folders/1DYn-iwCq8_YE95eObb8dCLzgV8O_EQ2f"],["Instagram","Coworks reel","https://www.instagram.com/reel/DdZ-pB4xe5W/"]]},
+   {n:"Developer Acceleration Batch",s:"Sep 1 to Oct 12, 6 weeks",a:6000,st:"In progress",p:"Six 8-hour mentor sessions: architecture, Soroban, fullstack, AI-MVP, product strategy, SCF readiness",facts:["43 participants (of 50 planned)"],bars:[["Mentors","1200"],["Curriculum","900"],["Technical review","770"],["Architecture","710"],["Operations","710"],["Tools","590"],["Kits","590"],["Demo + incentives","530"]],ev:[["Photos","Participant kits","https://drive.google.com/drive/folders/1moMkNk1FKDNQ4-NJeTwYPgfFjM95zO6O"]]},
+   {n:"Three-city Ideathon",s:"La Paz, Cochabamba, Santa Cruz; Oct 15 to 17",a:15600,st:"Scheduled",p:"Nine full-day events across three cities (not a single three-day event); physical execution USD 11,100 + programmatic layer USD 4,500",facts:["~278 projected attendances","Prizes capped at 5% of the programmatic layer"],bars:[["Physical (3 cities x 3 days)","11100"],["Programmatic layer","4500"]],ev:[]}],
+  risks:[["Actual vs allocated spend","Medium","Standard model above some source lines; never presented as equal"],["Developer evidence","Medium","No contributor-level data yet"],["Ideathon dates","Low","October 15 to 17 being confirmed"]]},
+
+ {id:"cr",name:"Costa Rica",color:"#FDDA24",alloc:30000,ang:96,
+  tagline:"Road to Hackathon: ULACIT, Fidelitas, university tour, bootcamp with 4 SCF startups and virtual hackathon",
+  context:[
+   ["San Jose","Capital; dollarized, higher-cost market"],
+   ["ULACIT","Universidad Latinoamericana de Ciencia y Tecnologia, private university"],
+   ["Start Up Supernovas","Student startup community at ULACIT; BAF's implementing partner"]],
+  impact:[["12","qualifying events structured across the quarter",true],["4","ULACIT sessions (1 completed, 3 scheduled)"],["495","projected in-person attendances"],["4","SCF startups leading the bootcamp (GrantFox, Neko, KindFi, Trustless Work)"],["2","Fidelitas sessions scheduled"]],
+  timeline:[
+   {d:"Sep 16",t:"Discover Stellar and Smart Contracts",m:"First session at ULACIT; 27 attendees (projecting 35)",k:"Completed"},
+   {d:"Sep 23",t:"Sessions 2 and 3",m:"Use cases, building with AI, idea to application",k:"Scheduled",next:true},
+   {d:"Oct 7",t:"Stellar Ideathon",m:"Session 4 with prize pool and judges",k:"Scheduled",next:true},
+   {d:"Oct 13-24",t:"University Tour",m:"4 universities, 65 attendees each",k:"Scheduled",next:true},{d:"Oct 26",t:"Bootcamp starts",m:"4 weeks, GrantFox/Neko/KindFi/Trustless Work",k:"Scheduled",next:true},{d:"Nov 27-29",t:"Hackathon",m:"Virtual, Friday to Sunday",k:"Scheduled",next:true}],
+  kpis:[["New Active Ambassadors","60","0","30","30"],["Qualifying Events","9","0","4","4"],["Monthly Active Developers","300","0","0","0"],["SCF Projects","6","0","0","0"],["Ecosystem Partners","3","0","2","2"]],
+  sep:["Sessions 2 and 3 on Sep 23 with Luma, attendance, photos","Onboarding of the 27 session 1 attendees","Leadership decision on the October program"],
+  october:["Ideathon on Oct 7 with contractual commits traced per person","Accelerator executed and evidenced, if approved"],
+  budget:[["ULACIT S1: Discover Stellar (35 att.)","Completed",1400],["ULACIT S2: Use Cases and AI (35 att.)","Scheduled",1400],["ULACIT S3: Idea to Application (35 att.)","Scheduled",1400],["ULACIT S4: Ideathon (40 att.)","Scheduled",1600],["Fidelitas S1: Education and Activation (45 att.)","Scheduled",1800],["Fidelitas S2: Build, Mentor and Demo Day (45 att.)","Scheduled",1800],["University tour event 1 (65 att.)","Scheduled",2500],["University tour event 2 (65 att.)","Scheduled",2500],["University tour event 3 (65 att.)","Scheduled",2500],["University tour event 4 (65 att.)","Scheduled",2500],["Bootcamp: Road to Hackathon (4 weeks)","Scheduled",6000],["Hackathon virtual (Nov 27-29)","Scheduled",4600]],
+  initiatives:[
+   {n:"ULACIT Stellar Builder Series",s:"4 sessions, Sep 16 to Oct 7",a:5800,st:"In progress",p:"Four in-person sessions with Start Up Supernovas at ULACIT",facts:["Session 1: 35 attendees","S2 and S3 on Sep 23, S4 Ideathon on Oct 7"],bars:[["S1 (35 att.)","1400"],["S2 (35)","1400"],["S3 (35)","1400"],["S4 Ideathon (40)","1600"]],ev:[["Luma","Session 1","https://luma.com/bpp4zula"],["Luma","Session 2","https://luma.com/z22y4v6w"],["Luma","Session 3","https://luma.com/swhok5xr"],["Luma","Session 4","https://luma.com/lwk5oe25"],["Photos","Session 1","https://drive.google.com/drive/folders/1s7bF5iFdHxlGbrWDCGkUW0QWnfztMVG3"]]},
+   {n:"Fidelitas Builder Program",s:"2 sessions, Oct 10 and 17",a:3600,st:"Scheduled",p:"Education, activation, team formation, build and Demo Day",facts:[],bars:[["S1 (45 att.)","1800"],["S2 (45)","1800"]],ev:[]},
+   {n:"University Tour: Road to Hackathon",s:"4 universities, Oct 13-24",a:10000,st:"Scheduled",p:"Entry point for the bootcamp and hackathon, 65 attendees each",facts:[],bars:[["Event 1","2500"],["Event 2","2500"],["Event 3","2500"],["Event 4","2500"]],ev:[]},
+   {n:"Bootcamp: Road to Hackathon",s:"4 weeks, Oct 26 to Nov 16",a:6000,st:"Scheduled",p:"4 SCF startups lead 1 week each: GrantFox, Neko Protocol, KindFi, Trustless Work",facts:["2 sessions per week, 8 formal sessions total"],bars:[["Week 1: GrantFox","1500"],["Week 2: Neko","1500"],["Week 3: KindFi","1500"],["Week 4: Trustless Work","1500"]],ev:[["Web","GrantFox","https://grantfox.xyz"],["Web","Neko Protocol","https://www.nekoprotocol.xyz"],["Web","KindFi","https://www.kindfi.org"],["Web","Trustless Work","https://www.trustlesswork.com"]]},
+   {n:"Hackathon",s:"Virtual, Nov 27-29",a:4600,st:"Scheduled",p:"Tracks aligned with 4 startup partners, top projects get Instawards fast-track",facts:[],bars:[],ev:[]}],
+  risks:[]}
+ ]};
+
+/* PDF builder, DOM-free: buildPDF(jsPDF, countries, isFull) returns a jsPDF doc */
+function buildPDF(jsPDF, list, isFull){
+  const doc=new jsPDF({unit:"pt",format:"a4"});
+  const W=595.28,H=841.89,M=50,CW=W-2*M;
+  const INK=[15,15,15],MUTE=[110,110,110],YEL=[253,218,36],NAVY=[0,46,93],PAPER=[246,247,248];
+  const hex=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+  const fmt=n=>Number(n).toLocaleString("en-US",{maximumFractionDigits:2});
+  let y=0;
+  const room=h=>{if(y+h>H-60){doc.addPage();y=90}};
+  const para=(t,size=10,col=INK,font="helvetica",style="normal",gap=4)=>{doc.setFont(font,style);doc.setFontSize(size);doc.setTextColor(...col);const lines=doc.splitTextToSize(String(t),CW);lines.forEach(l=>{room(size*1.4);doc.text(l,M,y);y+=size*1.4});y+=gap};
+  const h2=(t,col)=>{room(48);y+=10;doc.setFillColor(...(col||YEL));doc.rect(M,y-11,3,14,"F");doc.setFont("times","normal");doc.setFontSize(17);doc.setTextColor(...INK);doc.text(t,M+10,y);y+=18};
+  const h3=t=>{room(36);y+=4;doc.setFont("times","bold");doc.setFontSize(12.5);doc.setTextColor(...INK);doc.splitTextToSize(t,CW).forEach(l=>{doc.text(l,M,y);y+=15});y+=2};
+  const bullets=(arr,num)=>{doc.setFont("helvetica","normal");doc.setFontSize(10);arr.forEach((b,i)=>{const lines=doc.splitTextToSize(String(b),CW-16);room(lines.length*14);doc.setTextColor(...MUTE);doc.text(num?(i+1)+".":"\u2022",M,y);doc.setTextColor(...INK);lines.forEach(l=>{doc.text(l,M+16,y);y+=14})});y+=4};
+  const table=(head,body,opts={})=>{doc.autoTable(Object.assign({startY:y,head:[head],body,margin:{left:M,right:M,top:80,bottom:60},theme:"plain",
+    styles:{font:"helvetica",fontSize:8.8,cellPadding:{top:5,bottom:5,left:5,right:5},textColor:INK,lineColor:[225,225,225],lineWidth:{bottom:.5}},
+    headStyles:{fillColor:INK,textColor:[255,255,255],fontStyle:"bold"},alternateRowStyles:{fillColor:PAPER}},opts));y=doc.lastAutoTable.finalY+14};
+
+  // cover
+  const title=isFull?"LATAM Country Master Reports":list[0].name+" Country Report";
+  doc.setFillColor(...INK);doc.rect(0,0,W,H,"F");
+  const cx=W-150,cy=260;
+  doc.setLineWidth(.8);
+  (isFull?list:[list[0]]).forEach((c,i)=>{doc.setDrawColor(...hex(c.color));doc.circle(cx,cy,34+i*18,"S")});
+  doc.setFillColor(...YEL);doc.circle(cx,cy,9,"F");
+  doc.setFont("times","italic");doc.setFontSize(12);doc.setTextColor(214,210,196);doc.text("BAF x Stellar",M,90);
+  doc.setDrawColor(...YEL);doc.setLineWidth(1);doc.line(M,104,W-M,104);
+  doc.setFont("times","normal");doc.setFontSize(38);doc.setTextColor(246,247,248);
+  doc.splitTextToSize(title,330).forEach((l,i)=>doc.text(l,M,440+i*44));
+  doc.setFont("helvetica","normal");doc.setFontSize(12);doc.setTextColor(214,210,196);
+  doc.text("Stellar Ambassador Program, Q3 2026",M,540);doc.text(DATA.meta.period,M,558);
+  const totalAlloc=list.reduce((s,c)=>s+c.alloc,0);
+  doc.setTextColor(...YEL);doc.setFontSize(22);doc.setFont("times","normal");doc.text("USD "+fmt(totalAlloc),M,610);
+  doc.setFont("helvetica","normal");doc.setFontSize(10);doc.setTextColor(170,170,170);doc.text(isFull?"Quarterly allocation across six chapters":"Quarterly allocation",M,626);
+  doc.setFontSize(9);doc.text("Prepared September 22, 2026. September figures are in progress; October items are scheduled.",M,H-60);
+
+  if(isFull){doc.addPage();y=90;h2("Reporting principles");bullets(DATA.meta.rules);h2("Allocation by country");table(["Country","Allocation USD","Summary"],DATA.countries.map(c=>[c.name,fmt(c.alloc),c.tagline]),{columnStyles:{1:{halign:"right",cellWidth:80},0:{cellWidth:70}}})}
+
+  list.forEach(c=>{
+    const col=hex(c.color==="#F6F7F8"?"#002E5D":c.color==="#D6D2C4"?"#8A8470":c.color);
+    doc.addPage();
+    doc.setFillColor(...INK);doc.rect(0,60,W,90,"F");
+    doc.setFillColor(...hex(c.color));doc.circle(M+8,105,7,"F");
+    doc.setFont("times","normal");doc.setFontSize(28);doc.setTextColor(246,247,248);doc.text(c.name,M+26,114);
+    doc.setFont("helvetica","normal");doc.setFontSize(10);doc.setTextColor(214,210,196);doc.text("Quarterly allocation USD "+fmt(c.alloc),W-M,114,{align:"right"});
+    y=180;para(c.tagline,11.5,INK,"times","italic",8);
+    h2("Context: where and with whom",col);
+    table(["Place or partner","What it is"],c.context,{columnStyles:{0:{cellWidth:120,fontStyle:"bold"}}});
+    h2("Impact at a glance",col);
+    table(["Result","What it means"],c.impact.map(i=>[i[0],i[1]]),{columnStyles:{0:{cellWidth:90,fontStyle:"bold",fontSize:11}}});
+    h2("Timeline",col);
+    table(["Date","Milestone","Detail","Status / result"],c.timeline.map(t=>[t.d,t.t,t.m,t.next?"Upcoming: "+t.k:t.k]),{columnStyles:{0:{cellWidth:62},1:{cellWidth:120,fontStyle:"bold"},3:{cellWidth:95}},
+      didParseCell:d=>{if(d.section==="body"&&c.timeline[d.row.index].next){d.cell.styles.textColor=MUTE}}});
+    h2("KPI scorecard",col);
+    table(["KPI","Target","August (closed)","September (in progress)","October plan"],c.kpis,{columnStyles:{0:{cellWidth:100,fontStyle:"bold"},1:{cellWidth:62}},
+      didParseCell:d=>{if(d.section==="body"&&d.column.index===3){d.cell.styles.fillColor=[241,238,252]}}});
+    h3("September closure, in progress");bullets(c.sep);
+    h3("October closure");bullets(c.october,true);
+    h2("Allocation",col);
+    const tot=c.budget.reduce((s,b)=>s+b[2],0);
+    table(["Layer","Classification","USD"],c.budget.map(b=>[b[0],b[1],fmt(b[2])]).concat([["Total","",fmt(tot)]]),{columnStyles:{2:{halign:"right",cellWidth:80},1:{cellWidth:120}},
+      didParseCell:d=>{if(d.section==="body"&&d.row.index===c.budget.length){d.cell.styles.fontStyle="bold"}}});
+    h2("Initiatives",col);
+    c.initiatives.forEach(i=>{
+      h3(i.n);
+      const SC={"Completed":[0,46,93],"In progress":[0,118,128],"In preparation":[0,118,128],"Scheduled":[90,90,90],"Proposed":[150,105,0],"Cancelled":[160,40,40]};doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(...(SC[i.st]||INK));room(14);doc.text(i.st,M,y);
+      doc.setFont("helvetica","normal");doc.setTextColor(...MUTE);doc.text("   "+i.s+"   USD "+fmt(i.a),M+doc.getTextWidth(i.st)+4,y);y+=16;
+      para(i.p,10);
+      if(i.facts.length)bullets(i.facts);
+      if(i.bars.length)table(["Allocation line","USD"],i.bars.map(b=>[b[0],fmt(b[1])]),{tableWidth:260,columnStyles:{1:{halign:"right"}},styles:{fontSize:8.5,cellPadding:3,textColor:INK,lineColor:[225,225,225],lineWidth:{bottom:.5},font:"helvetica"}});
+      const ev=i.ev.filter(e=>e[2]);
+      if(ev.length){room(18);doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(...INK);doc.text("Evidence",M,y);y+=13;
+        doc.setFont("helvetica","normal");doc.setFontSize(9);
+        ev.forEach(e=>{room(13);doc.setTextColor(...MUTE);doc.text(e[0],M,y);doc.setTextColor(...NAVY);doc.textWithLink(e[1],M+62,y,{url:e[2]});y+=13});y+=6}
+      const pend=i.ev.filter(e=>!e[2]);
+      if(pend.length){para("Evidence to link: "+pend.map(e=>e[1]).join("; "),8.5,MUTE)}
+    });
+
+    if(!isFull){h2("Reporting notes",col);bullets(DATA.meta.rules)}
+  });
+
+  // headers and footers
+  const n=doc.getNumberOfPages();
+  for(let p=2;p<=n;p++){doc.setPage(p);
+    doc.setFont("times","bolditalic");doc.setFontSize(10);doc.setTextColor(...INK);doc.text("BAF LATAM x Stellar",M,38);
+    doc.setFont("times","normal");doc.text(isFull?"Q3 2026 Country Master Reports":"Q3 2026 "+list[0].name+" Report",W/2,38,{align:"center"});
+    doc.setFont("times","bold");doc.text("P. "+String(p).padStart(2,"0"),W-M,38,{align:"right"});
+    doc.setDrawColor(...YEL);doc.setLineWidth(1);doc.line(M,48,W-M,48);
+    doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUTE);
+    doc.text("",M,H-30);}
+  return doc;
+}
+
+</script>
+<script>const $=s=>document.querySelector(s);
+const NS="http://www.w3.org/2000/svg";
+const usd=n=>"USD "+Number(n).toLocaleString("en-US",{maximumFractionDigits:2});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const STCLASS={"Completed":"done","In progress":"prog","In preparation":"prog","Scheduled":"sched","Proposed":"prop","Cancelled":"canc"};
+const KINDCOL={"Photos":"#FDDA24","Instagram":"#B7ACE8","LinkedIn":"#B7ACE8","On-chain":"#00A7B5","GitHub":"#F6F7F8","Luma":"#D6D2C4","Data":"#D6D2C4","Material":"#D6D2C4"};
+let active=null, view="overview", zoomed=false, vb=[0,0,640,640];
+const pos={};
+const country=()=>DATA.countries.find(c=>c.id===active);
+
+/* ---------- orbits ---------- */
+function buildOrbits(){
+  const rings=$("#rings"),planets=$("#planets"),C=320;
+  DATA.countries.forEach((c,i)=>{
+    const r=62+40*i, a=c.ang*Math.PI/180, x=C+r*Math.cos(a), y=C+r*Math.sin(a), right=Math.cos(a)>=-0.05;
+    pos[c.id]={x,y,right};
+    const ring=document.createElementNS(NS,"circle");
+    ring.setAttribute("cx",C);ring.setAttribute("cy",C);ring.setAttribute("r",r);ring.dataset.id=c.id;
+    ring.setAttribute("class","orbit-ring drawn");ring.setAttribute("stroke",c.color);
+    ring.style.opacity=c.dashed?".5":".62";ring.style.animationDelay=(i*.16)+"s";
+    if(c.dashed)ring.setAttribute("stroke-dasharray","3 6");
+    rings.appendChild(ring);
+    const g=document.createElementNS(NS,"g");
+    g.setAttribute("class","planet appear");g.dataset.id=c.id;g.setAttribute("tabindex","0");g.setAttribute("role","button");
+    g.setAttribute("aria-label","Zoom into "+c.name);g.style.animationDelay=(.8+i*.16)+"s";
+    const tx=right?x+13:x-13, anchor=right?"start":"end";
+    g.innerHTML=`<circle class="hit" cx="${x}" cy="${y}" r="18" fill="transparent"/>
+      <circle class="ping" cx="${x}" cy="${y}" r="5" fill="none" stroke="${c.color}" style="animation-delay:${i*.4}s"/>
+      <circle class="body" cx="${x}" cy="${y}" r="5" fill="${c.dashed?"#0F0F0F":c.color}" stroke="${c.color}" stroke-width="${c.dashed?1.4:0}"/>
+      <text x="${tx}" y="${y+1}" text-anchor="${anchor}">${c.name}</text>
+      <text class="tag" x="${tx}" y="${y+15}" text-anchor="${anchor}">${usd(c.alloc)}</text>`;
+    g.addEventListener("click",()=>select(c.id,{zoom:true}));
+    g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();select(c.id,{zoom:true})}});
+    planets.appendChild(g);
+  });
+  $("#star").addEventListener("click",unzoom);
+  $("#back").addEventListener("click",unzoom);
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&zoomed)unzoom()});
+  const lg=$("#legend");
+  DATA.countries.forEach(c=>{const b=document.createElement("button");b.dataset.id=c.id;
+    b.innerHTML=`<span class="dot" style="background:${c.dashed?"transparent":c.color};border:1px ${c.dashed?"dashed":"solid"} ${c.color}"></span>${c.name}<span class="amt">${usd(c.alloc)}</span>`;
+    b.addEventListener("click",()=>select(c.id,{zoom:true}));lg.appendChild(b)});
+}
+function setVB(v){vb=v;$("#orb").setAttribute("viewBox",v.map(n=>n.toFixed(2)).join(" "))}
+function animVB(to,done){
+  if(reduce){setVB(to);done&&done();return}
+  const from=vb.slice(),t0=performance.now(),D=950;
+  const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  (function step(now){const k=Math.min(1,(now-t0)/D),e=ease(k);setVB(from.map((f,i)=>f+(to[i]-f)*e));if(k<1)requestAnimationFrame(step);else done&&done()})(t0);
+}
+function satellites(c){
+  const pri=["Instagram","LinkedIn","On-chain","GitHub","Photos","Luma","Data","Material"];
+  let items=[];
+  c.initiatives.forEach(i=>i.ev.forEach(e=>{if(e[2])items.push({kind:e[0],label:e[1],url:e[2]})}));
+  items.sort((a,b)=>pri.indexOf(a.kind)-pri.indexOf(b.kind));
+  const photos=items.filter(x=>x.kind==="Photos"), rest=items.filter(x=>x.kind!=="Photos");
+  items=rest.slice(0,6).concat(photos).slice(0,10);
+  if(items.length<4){c.timeline.slice(0,6-items.length).forEach(t=>items.push({kind:"Milestone",label:t.t,d:t.d}))}
+  return items;
+}
+function drawSats(c){
+  const g=$("#sats");
+  const p=pos[c.id], items=satellites(c), n=items.length;
+  g.innerHTML=`<circle class="lens" cx="${p.x}" cy="${p.y}" r="178" fill="url(#lens)"/>
+    <circle cx="${p.x}" cy="${p.y}" r="12" fill="none" stroke="${c.color}" stroke-opacity=".3" stroke-width=".7"/>
+    <circle cx="${p.x}" cy="${p.y}" r="7.5" fill="${c.dashed?"#0F0F0F":c.color}" stroke="${c.color}" stroke-width="${c.dashed?1.4:0}" filter="url(#glow)"/>
+    <text class="zlabel" x="${p.x}" y="${p.y+28}" text-anchor="middle">${esc(c.name)}</text>
+    <text class="zlabel amt" x="${p.x}" y="${p.y+38}" text-anchor="middle">${usd(c.alloc)}</text>`;
+  items.forEach((it,i)=>{
+    const a=-Math.PI/2+(i+0.5)*(2*Math.PI/n), sx=p.x+104*Math.cos(a), sy=p.y+90*Math.sin(a), right=Math.cos(a)>=-0.1;
+    const col=it.kind==="Milestone"?c.color:(KINDCOL[it.kind]||"#D6D2C4");
+    const wrap=document.createElementNS(NS,it.url?"a":"g");
+    if(it.url){wrap.setAttribute("href",it.url);wrap.setAttribute("target","_blank");wrap.setAttribute("rel","noopener")}
+    else{wrap.setAttribute("tabindex","0");wrap.setAttribute("role","button");wrap.addEventListener("click",()=>$("#focus").scrollIntoView({behavior:"smooth"}))}
+    wrap.setAttribute("class","sat");wrap.style.animationDelay=(i*.07)+"s";
+    const lbl=it.label.length>24?it.label.slice(0,23)+"\u2026":it.label, tx=right?sx+8:sx-8, an=right?"start":"end";
+    const dx=sx-p.x,dy=sy-p.y,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L;
+    wrap.innerHTML=`<line x1="${p.x+ux*15}" y1="${p.y+uy*15}" x2="${sx-ux*10}" y2="${sy-uy*10}" stroke="${c.color}" stroke-opacity=".3" stroke-width=".6"/>
+      <circle class="sdot" cx="${sx}" cy="${sy}" r="4.2" fill="${col}"/><circle cx="${sx}" cy="${sy}" r="8" fill="none" stroke="${col}" stroke-opacity=".35" stroke-width=".6"/>
+      <text class="sk" x="${tx}" y="${sy-3}" text-anchor="${an}">${esc(it.kind==="Milestone"?it.d:it.kind)}</text>
+      <text class="sl" x="${tx}" y="${sy+6.5}" text-anchor="${an}">${esc(lbl)}</text><title>${esc(it.label)}</title>`;
+    g.appendChild(wrap);
+  });
+}
+function zoomTo(id){
+  const c=DATA.countries.find(x=>x.id===id),p=pos[id],S=380;
+  zoomed=true;$("#sats").innerHTML="";$(".orbits").classList.add("zoomed");
+  $("#zcap").innerHTML=`<b>${esc(c.name)}</b> Open a satellite to see the post, photo album or on-chain proof.`;
+  animVB([p.x-S/2,p.y-S/2,S,S],()=>drawSats(c));
+}
+function unzoom(){
+  zoomed=false;$("#sats").innerHTML="";$(".orbits").classList.remove("zoomed");
+  document.querySelectorAll(".planet").forEach(g=>g.classList.remove("dim"));
+  animVB([0,0,640,640]);
+}
+function markActive(){
+  document.querySelectorAll(".planet").forEach(g=>{const on=g.dataset.id===active;g.classList.toggle("active",on);g.classList.toggle("dim",zoomed&&!on)});
+  document.querySelectorAll(".orbit-ring").forEach(r=>r.classList.toggle("hot",r.dataset.id===active));
+  document.querySelectorAll("#legend button,#ctabs button").forEach(b=>b.classList.toggle("on",b.dataset.id===active));
+}
+
+/* ---------- focus ---------- */
+function renderFocus(){
+  const c=country(),f=$("#focus");
+  if(!c){f.classList.remove("show");return}
+  const past=c.timeline.filter(t=>!t.next).length, split=Math.round(past/c.timeline.length*100);
+  f.style.setProperty("--c",c.color);
+  f.innerHTML=`<div class="focus-head"><div><h2>${c.name}</h2><p class="sub">${esc(c.tagline)}</p></div><div class="sub alloc">Quarterly allocation ${usd(c.alloc)}</div></div>
+   <h3 class="mini">Where and with whom</h3>
+   <div class="ctx">${c.context.map(([n,w])=>`<div><b>${esc(n)}</b><p>${esc(w)}</p></div>`).join("")}</div>
+   <h3 class="mini">Impact</h3>
+   <div class="impact">${c.impact.map(([v,l,hl])=>`<div class="${hl?"hl":""}"><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("")}</div>
+   <div class="timeline"><div class="tl-track" style="--split:${split}%"><span class="tl-label" style="left:12px">What happened</span><span class="tl-label" style="left:calc(${split}% + 12px)">What comes next</span>
+   ${c.timeline.map(t=>`<div class="tl-item${t.next?" next":""}"><div class="d">${esc(t.d)}</div><div class="t">${esc(t.t)}</div><div class="m">${esc(t.m)}</div><div class="k">${esc(t.k)}</div></div>`).join("")}</div></div>`;
+  f.classList.add("show");
+}
+
+/* ---------- explorer ---------- */
+const VIEWS=[["overview","Snapshot"],["initiatives","Initiatives"],["proof","Proof"],["budget","Allocation"],["kpis","KPIs and closure"]];
+function buildExplorer(){
+  const t=$("#ctabs");
+  DATA.countries.forEach(c=>{const b=document.createElement("button");b.dataset.id=c.id;b.style.setProperty("--c",c.color);
+    b.innerHTML=`<span class="dot" style="background:${c.dashed?"transparent":c.color};border:1px ${c.dashed?"dashed":"solid"} ${c.color}"></span>${c.name}`;
+    b.addEventListener("click",()=>select(c.id,{}));t.appendChild(b)});
+  const v=$("#views");
+  VIEWS.forEach(([id,l])=>{const b=document.createElement("button");b.dataset.v=id;b.textContent=l;b.addEventListener("click",()=>{view=id;renderPanel()});v.appendChild(b)});
+}
+const pill=st=>`<span class="st ${STCLASS[st]||""}">${esc(st)}</span>`;
+function renderPanel(){
+  const c=country(),p=$("#panel");
+  document.querySelectorAll("#views button").forEach(b=>b.classList.toggle("on",b.dataset.v===view));
+  $("#explorer").style.setProperty("--c",c?c.color:"#FDDA24");
+  $("#dlCountry").textContent=c?`Download ${c.name} report (PDF)`:"Download country report (PDF)";
+  if(!c){p.innerHTML=`<p class="lead">Pick a country above. Regionally: ${usd(DATA.meta.total)} across six chapters; six chapters, each structured to their full allocation.</p>`;return}
+  let h="";
+  if(view==="overview"){
+    const done=c.budget.filter(b=>/^Working$/.test(b[1])).reduce((s,b)=>s+b[2],0);
+    const counts={};c.initiatives.forEach(i=>counts[i.st]=(counts[i.st]||0)+1);
+    h+=`<p class="lead">${esc(c.tagline)}</p><div class="stat-row" style="margin-top:22px"><div><b>${usd(c.alloc)}</b><span>quarterly allocation</span></div><div><b>${usd(done)}</b><span>allocation on delivered activity</span></div><div><b>${c.initiatives.length}</b><span>initiatives</span></div><div><b>${c.timeline.filter(t=>!t.next).length}</b><span>milestones delivered</span></div></div>
+    <h3>Initiative status</h3><div class="stlist">${Object.entries(counts).map(([s,n])=>`<span>${pill(s)} ${n}</span>`).join("")}</div>
+    <h3>What to take away</h3><ul class="take">${c.impact.map(([v,l])=>`<li><b>${esc(v)}</b> ${esc(l)}</li>`).join("")}</ul>`;
+  }
+  if(view==="initiatives"){
+    h+=`<div class="acc">${c.initiatives.map(i=>{const max=Math.max(1,...i.bars.map(b=>b[1]));const ev=i.ev.filter(e=>e[2]),pend=i.ev.filter(e=>!e[2]);
+      return `<details><summary><span><span class="n">${esc(i.n)}</span><br><span class="s">${esc(i.s)}</span></span><span class="a">${usd(i.a)}</span>${pill(i.st)}</summary>
+      <div class="body"><div><p>${esc(i.p)}</p>${i.facts.length?`<ul>${i.facts.map(f=>`<li>${esc(f)}</li>`).join("")}</ul>`:""}
+      ${ev.length?`<h4 style="margin-top:16px">Evidence</h4><div class="evl">${ev.map(([k,l,u])=>`<a href="${u}" target="_blank" rel="noopener"><i style="background:${KINDCOL[k]||"#D6D2C4"}"></i><span>${esc(k)}</span>${esc(l)}</a>`).join("")}</div>`:""}
+      ${pend.length?`<p class="note">To link: ${pend.map(e=>esc(e[1])).join("; ")}</p>`:""}</div>
+      <div>${i.bars.length?`<h4>Allocation breakdown</h4><div class="bars">${i.bars.map(([l,v])=>`<div class="bar"><span>${esc(l)}</span><i style="width:${Math.round(v/max*100)}%"></i><em>${Number(v).toLocaleString("en-US",{maximumFractionDigits:2})}</em></div>`).join("")}</div>`:""}</div></div></details>`}).join("")}</div>`;
+  }
+  if(view==="proof"){
+    const groups=[["Photos","Photo albums"],["Instagram","Social posts"],["On-chain","On-chain and code"],["GitHub",""],["Luma","Registration and data"],["Data",""],["Material","Program material"]];
+    const all=[];c.initiatives.forEach(i=>i.ev.forEach(e=>all.push({k:e[0],l:e[1],u:e[2],i:i.n})));
+    h+=`<p class="lead">Photo albums, posts and on-chain records are the primary proof that each activity happened. Every tile opens the original.</p>`;
+    const merged={"Photo albums":["Photos"],"Social posts":["Instagram","LinkedIn"],"On-chain and code":["On-chain","GitHub"],"Registration and data":["Luma","Data"],"Program material":["Material"]};
+    Object.entries(merged).forEach(([title,kinds])=>{const it=all.filter(x=>x.u&&kinds.includes(x.k));if(!it.length)return;
+      h+=`<h3>${title}</h3><div class="tiles">${it.map(x=>`<a class="tile k-${x.k.replace(/[^a-z]/gi,"")}" href="${x.u}" target="_blank" rel="noopener"><span class="tk">${esc(x.k)}</span><b>${esc(x.l)}</b><span class="ti">${esc(x.i)}</span></a>`).join("")}</div>`});
+    const pend=all.filter(x=>!x.u);
+    if(pend.length)h+=`<h3>To be linked</h3><div class="tiles">${pend.map(x=>`<div class="tile pending"><span class="tk">Pending</span><b>${esc(x.l)}</b><span class="ti">${esc(x.i)}</span></div>`).join("")}</div>`;
+  }
+  if(view==="budget"){
+    const tot=c.budget.reduce((s,b)=>s+b[2],0),max=Math.max(...c.budget.map(b=>b[2]));
+    h+=`<p class="lead">How the ${usd(c.alloc)} allocation is structured. </p>
+    <div class="scroll"><table><tr><th>Layer</th><th>Classification</th><th class="num">USD</th><th class="num">Share</th></tr>${c.budget.map(b=>`<tr><td>${esc(b[0])}</td><td><span class="pill">${esc(b[1])}</span></td><td class="num">${b[2].toLocaleString("en-US")}</td><td class="num">${Math.round(b[2]/tot*100)}%</td></tr>`).join("")}<tr class="total"><td>Total</td><td></td><td class="num">${tot.toLocaleString("en-US")}</td><td class="num">100%</td></tr></table></div>
+    <div class="bars" style="margin-top:22px">${c.budget.map(b=>`<div class="bar"><span>${esc(b[0]).slice(0,26)}</span><i style="width:${Math.round(b[2]/max*100)}%;opacity:${/^Working$/.test(b[1])?.95:.4}"></i><em>${b[2].toLocaleString("en-US")}</em></div>`).join("")}</div><p class="note">Solid bars: delivered activity. Lighter bars: scheduled.</p>`;
+  }
+  if(view==="kpis"){
+    h+=`<div class="scroll"><table class="kpi"><tr><th>KPI</th><th>Target</th><th class="aug">August <span class="tag closed">Closed</span></th><th class="sep">September <span class="tag ongoing">In progress</span></th><th class="oct">October plan</th></tr>
+    ${c.kpis.map(k=>`<tr><td>${esc(k[0])}</td><td>${esc(k[1])}</td><td class="aug">${esc(k[2])}</td><td class="sep">${esc(k[3])}</td><td class="oct">${esc(k[4])}</td></tr>`).join("")}</table></div>
+    <div class="closures"><div class="cl sep"><h3>September closure <span class="tag ongoing">In progress</span></h3><ul>${c.sep.map(o=>`<li>${esc(o)}</li>`).join("")}</ul></div>
+    <div class="cl oct"><h3>October closure <span class="tag next">Scheduled</span></h3><ol>${c.october.map(o=>`<li>${esc(o)}</li>`).join("")}</ol></div></div>`;
+  }
+  if(view==="risks"){
+    h+=`<div class="scroll"><table class="risk"><tr><th>Risk</th><th>Severity</th><th>Detail</th></tr>${c.risks.map(r=>`<tr><td>${esc(r[0])}</td><td><span class="sev s-${r[1].split(" ")[0].toLowerCase()}">${esc(r[1])}</span></td><td>${esc(r[2])}</td></tr>`).join("")}</table></div>`;
+  }
+  p.innerHTML=h;
+}
+function select(id,o){
+  active=id;renderFocus();renderPanel();
+  if(o.zoom){zoomTo(id);$(".orbits").scrollIntoView({behavior:"smooth",block:"center"})}
+  else if(zoomed){zoomTo(id)}
+  markActive();
+}
+
+/* ---------- PDF download ---------- */
+let downloads=null;
+(async()=>{try{downloads=await claude.use("downloads")}catch(e){downloads=null}
+  if(!downloads){$("#dlnote").textContent="";$("#dlCountry").disabled=true;$("#dlAll").disabled=true}})();
+async function savePDF(list,isFull,name,btn){
+  if(!downloads)return;
+  if(!window.jspdf||!window.jspdf.jsPDF){$("#dlnote").textContent="The PDF engine did not load. Refresh the page and try again.";return}
+  const label=btn.textContent;btn.disabled=true;btn.textContent="Building PDF";
+  try{const doc=buildPDF(window.jspdf.jsPDF,list,isFull);await downloads.save({filename:name,data:doc.output("blob")});btn.textContent="Saved"}
+  catch(e){btn.textContent=e&&e.code==="declined"?"Not saved":"Could not save";if(e&&!e.code)console.error(e)}
+  setTimeout(()=>{btn.textContent=label;btn.disabled=false},1800);
+}
+$("#dlCountry").addEventListener("click",e=>{if(!country())select("co",{});const c=country();savePDF([c],false,`BAF-${c.name.replace(/\s/g,"-")}-Q3-2026-Report.pdf`,e.currentTarget)});
+$("#dlAll").addEventListener("click",e=>savePDF(DATA.countries,true,"BAF-LATAM-Q3-2026-Country-Master-Reports.pdf",e.currentTarget));
+
+buildOrbits();buildExplorer();renderPanel();
+</script>
+
+<script>
+(function(){
+  var names={co:'Colombia',mx:'Mexico',ar:'Argentina',pe:'Peru',bo:'Bolivia',cr:'CostaRica'};
+  var btn=document.getElementById('dlCountry');
+  if(btn){btn.onclick=function(e){e.preventDefault();var active=document.querySelector('.legend button.on');if(!active){alert('Select a country first');return;}var id=active.dataset.id;if(id&&names[id]){window.open('reports/BAF-'+names[id]+'-Q3-2026-Report.pdf','_blank');}};btn.disabled=false;}
+  var all=document.getElementById('dlAll');if(all)all.style.display='none';
+  var note=document.getElementById('dlnote');if(note)note.textContent='';
+})();
+</script>
+</body>
+</html>
